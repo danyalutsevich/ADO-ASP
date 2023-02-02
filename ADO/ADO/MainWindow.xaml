@@ -17,10 +17,12 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0" Grid.Row="0" TextElement.FontSize="25">
             <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -33,10 +35,15 @@
             
             <Label Content="Status Monitor" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0"/>
             <Label Content="Connection" Grid.Column="0" Grid.Row="1"/>
-            <Label Content="Name" Grid.Column="0" Grid.Row="2"/>
-            <Label Content="Name" Grid.Column="0" Grid.Row="3"/>
+            <Label Content="Departments" Grid.Column="0" Grid.Row="2"/>
+            <Label Content="Products" Grid.Column="0" Grid.Row="3"/>
+            <Label Content="Managers" Grid.Column="0" Grid.Row="4"/>
 
             <Label x:Name="Status" Content="Status" Grid.Column="1" Grid.Row="1"/>
+            <Label x:Name="DepQty" Content="qty" Grid.Column="1" Grid.Row="2"/>
+            <Label x:Name="ProdQty" Content="qty" Grid.Column="1" Grid.Row="3"/>
+            <Label x:Name="ManageQty" Content="qty" Grid.Column="1" Grid.Row="4"/>
+        
         </Grid>
 
         <Grid Grid.Column="0" Grid.Row="1" TextElement.FontSize="15">
@@ -58,6 +65,27 @@
             <Button Grid.Column="1" Grid.Row="1" Click="Button_Click_1">
                 <TextBlock TextAlignment="Center">Fill<LineBreak/>Departments</TextBlock>
             </Button>
+            <Label Content="Install Database" HorizontalAlignment="Center" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="0"/>
+            <Button Grid.Column="0" Grid.Row="2" Click="Button_Click_2">
+                <TextBlock TextAlignment="Center">Create<LineBreak/>Products</TextBlock>
+            </Button>
+            <Button Grid.Column="1" Grid.Row="2" Click="Button_Click_3">
+                <TextBlock TextAlignment="Center">Fill<LineBreak/>Products</TextBlock>
+            </Button>
+             <Button Grid.Column="0" Grid.Row="3" Click="Button_Click_4">
+                <TextBlock TextAlignment="Center">Create<LineBreak/>Managers</TextBlock>
+            </Button>
+            <Button Grid.Column="1" Grid.Row="3" Click="Button_Click_5">
+                <TextBlock TextAlignment="Center">Fill<LineBreak/>Managers</TextBlock>
+            </Button>
         </Grid>
+
+        <StackPanel Grid.Column="1" TextElement.FontSize="25" HorizontalAlignment="Center">
+            <Label>Departments</Label>
+            <ScrollViewer MaxHeight="170">
+                <Label FontSize="8" x:Name="ViewDepartments" Height="500"></Label>
+            </ScrollViewer>
+        </StackPanel>
+        
     </Grid>
 </Window>
