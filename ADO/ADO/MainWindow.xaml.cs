@@ -42,6 +42,8 @@ namespace ADO
                 ProductsQty();
                 ManagersQty();
                 ShowDepartments();
+                ShowManagers();
+                ShowProducts();
             }
             catch (Exception ex)
             {
@@ -267,7 +269,59 @@ namespace ADO
                 }
                 ViewDepartments.Content = result.ToString();
             }
-            catch(Exception ex)
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        private void ShowManagers()
+        {
+            using SqlCommand command = new("SELECT * FROM Managers JOIN Departments ON Id_main_dep = Departments.Id", connection);
+            try
+            {
+                using SqlDataReader reader = command.ExecuteReader();
+                StringBuilder result = new StringBuilder();
+                while (reader.Read())
+                {
+                    var guid = reader.GetGuid(0).ToString();
+                    var start = guid.Substring(0, 4);
+                    var end = guid.Substring(guid.Length - 4, 4);
+                    var surname = reader.GetString(1);
+                    var name = reader.GetString(2);
+                    var lastname = reader.GetString(3);
+                    var department = reader.GetString(8);
+
+                    result.AppendLine(start + "..." + end + " " + surname + " " + name[0] + ". " + lastname[0]+". "+ department);
+                }
+                ViewManagers.Content = result.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void ShowProducts()
+        {
+            using SqlCommand command = new("SELECT * FROM Products", connection);
+            try
+            {
+                using SqlDataReader reader = command.ExecuteReader();
+                StringBuilder result = new StringBuilder();
+                while (reader.Read())
+                {
+                    var guid = reader.GetGuid(0).ToString();
+                    var start = guid.Substring(0, 4);
+                    var end = guid.Substring(guid.Length - 4, 4);
+                    var name = reader.GetString(1);
+                    var price = reader.GetDouble(2);
+                    result.AppendLine(start + "..." + end + " " + name + " " + price);
+                }
+                ViewProducts.Content = result.ToString();
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }

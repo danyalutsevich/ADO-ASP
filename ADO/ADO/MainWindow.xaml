@@ -82,8 +82,21 @@
 
         <StackPanel Grid.Column="1" TextElement.FontSize="25" HorizontalAlignment="Center">
             <Label>Departments</Label>
-            <ScrollViewer MaxHeight="170">
-                <Label FontSize="8" x:Name="ViewDepartments" Height="500"></Label>
+            <ScrollViewer MaxHeight="170" x:Name="DepartmentsViewer">
+                <Label FontSize="8" x:Name="ViewDepartments" Height="315"></Label>
+            </ScrollViewer>
+        </StackPanel>
+        
+        <StackPanel Grid.Column="1" Grid.Row="1" TextElement.FontSize="25" HorizontalAlignment="Center">
+            <Label>Managers</Label>
+            <ScrollViewer MaxHeight="170" x:Name="ManagersViewer">
+                <Label FontSize="8" x:Name="ViewManagers" Height="771"></Label>
+            </ScrollViewer>
+        </StackPanel>
+        <StackPanel Grid.Column="2" Grid.Row="0" TextElement.FontSize="25" HorizontalAlignment="Center">
+            <Label>Products</Label>
+            <ScrollViewer MaxHeight="170" x:Name="ProductsViewer">
+                <Label FontSize="8" x:Name="ViewProducts" Height="771"></Label>
             </ScrollViewer>
         </StackPanel>
         

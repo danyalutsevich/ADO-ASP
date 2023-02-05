@@ -27,3 +27,7 @@ VALUES
     ( '4A550D3B-D1F2-40EF-AE4E-963612C6713A', N'Сварочный аппарат',		2099	),
     ( '17DB11D1-F50E-4CF4-9C54-CF1BD45802EA', N'Электроды 3мм',			49.98	),
     ( '7264D33A-16B9-4E22-B3F1-63D6DAE60078', N'Паяльник 40 Вт',		199.98	)
+
+
+
+    SELECT * FROM Managers JOIN Departments ON Id_main_dep = Departments.Id
