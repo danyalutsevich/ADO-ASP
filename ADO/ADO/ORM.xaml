@@ -52,5 +52,22 @@
                 </ListView.Resources>
             </ListView>
         </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="0">
+            <Label TextElement.FontSize="25" HorizontalAlignment="Center">Products</Label>
+            <ListView ItemsSource="{Binding Products}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="150">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
+                        <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}"></GridViewColumn>
+                    </GridView>
+                </ListView.View>
+                <ListView.Resources>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"></EventSetter>
+                    </Style>
+                </ListView.Resources>
+            </ListView>
+        </StackPanel>
     </Grid>
 </Window>

@@ -27,12 +27,14 @@ namespace ADO
             InitializeComponent();
             Departments = new();
             Managers = new();
+            Products = new();
             DataContext = this;
             connection = new(App.ConnectionString);
         }
 
         public ObservableCollection<Department> Departments { get; set; }
         public ObservableCollection<Manager> Managers { get; set; }
+        public ObservableCollection<Product> Products { get; set; }
 
         private SqlConnection connection { get; set; }
 
@@ -40,7 +42,8 @@ namespace ADO
         {
             connection.Open();
             GetDepartments();
-            GetManagers();
+            GetManagers(); 
+            GetProducts();
         }
 
         private void GetDepartments()
@@ -85,6 +88,31 @@ namespace ADO
                     manager.Id_sec_dep = reader.GetValue(5) == DBNull.Value ? null : reader.GetGuid(5);
                     manager.Id_chief = reader.IsDBNull(6) ? null : reader.GetGuid(6);
                     Managers.Add(manager);
+                }
+                reader.Close();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                this.Close();
+
+            }
+        }
+
+        private void GetProducts()
+        {
+            try
+            {
+                using SqlCommand command = new("SELECT P.Id, P.Name, P.Price FROM Products P", connection);
+                using var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    var product = new Product();
+                    product.Id = reader.GetGuid(0);
+                    product.Name = reader.GetString(1);
+                    product.Price = reader.GetDouble(2);
+                    Products.Add(product);
                 }
                 reader.Close();
 
