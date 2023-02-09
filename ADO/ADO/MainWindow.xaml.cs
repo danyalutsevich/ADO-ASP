@@ -28,7 +28,7 @@ namespace ADO
         public MainWindow()
         {
             InitializeComponent();
-            connection = new(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\luche\Desktop\ADO\ADO\ADO\ADO.mdf;Integrated Security=True");
+            connection = new(App.ConnectionString);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -50,7 +50,7 @@ namespace ADO
                 MessageBox.Show(ex.Message);
                 Status.Content = "Unable to open";
                 Status.Foreground = Brushes.Red;
-                this.Close();
+                //this.Close();
             }
 
         }
@@ -293,7 +293,7 @@ namespace ADO
                     var lastname = reader.GetString(3);
                     var department = reader.GetString(8);
 
-                    result.AppendLine(start + "..." + end + " " + surname + " " + name[0] + ". " + lastname[0]+". "+ department);
+                    result.AppendLine(start + "..." + end + " " + surname + " " + name[0] + ". " + lastname[0] + ". " + department);
                 }
                 ViewManagers.Content = result.ToString();
             }
@@ -328,5 +328,11 @@ namespace ADO
 
         }
 
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            new ORM().ShowDialog();
+            this.Show();
+        }
     }
 }

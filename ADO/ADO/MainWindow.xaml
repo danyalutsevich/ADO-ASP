@@ -99,6 +99,21 @@
                 <Label FontSize="8" x:Name="ViewProducts" Height="771"></Label>
             </ScrollViewer>
         </StackPanel>
+
+        <Grid Grid.Row="1" Grid.Column="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.ColumnSpan="2" HorizontalAlignment="Center" TextElement.FontSize="20">Navigation</Label>
+            <Button Grid.Row="1" Click="Button_Click_6">ORM</Button>
+            
+        </Grid>
         
     </Grid>
 </Window>
