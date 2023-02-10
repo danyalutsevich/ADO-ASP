@@ -8,6 +8,7 @@
 --	Id_chief	UNIQUEIDENTIFIER
 --) ;
 
+
 INSERT INTO Managers 
 	( Id, Surname, Name, Secname, Id_main_dep, Id_sec_dep, Id_chief )
 VALUES 

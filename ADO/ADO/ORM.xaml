@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ADO"
         mc:Ignorable="d"
-        Title="ORM" Height="450" Width="800" Loaded="Window_Loaded"
+        Title="ORM" Height="500" Width="800" Loaded="Window_Loaded"
         >
     <Grid>
         <Grid.ColumnDefinitions>
@@ -32,6 +32,7 @@
                     </Style>
                 </ListView.Resources>
             </ListView>
+            <Button Click="Button_DepartmentsAdd">Add</Button>
         </StackPanel>
         
         <StackPanel Grid.Row="0" Grid.Column="1">
@@ -51,6 +52,7 @@
                     </Style>
                 </ListView.Resources>
             </ListView>
+            <Button Click="Button_ManagersAdd">Add</Button>
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="0">
             <Label TextElement.FontSize="25" HorizontalAlignment="Center">Products</Label>
@@ -68,6 +70,7 @@
                     </Style>
                 </ListView.Resources>
             </ListView>
+            <Button Click="Button_ProductsAdd">Add</Button>
         </StackPanel>
     </Grid>
 </Window>

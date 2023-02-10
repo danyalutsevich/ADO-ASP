@@ -42,7 +42,7 @@ namespace ADO
         {
             connection.Open();
             GetDepartments();
-            GetManagers(); 
+            GetManagers();
             GetProducts();
         }
 
@@ -52,6 +52,7 @@ namespace ADO
             {
                 using SqlCommand command = new("SELECT D.Id, D.Name FROM Departments D", connection);
                 using var reader = command.ExecuteReader();
+                Departments.Clear();
                 while (reader.Read())
                 {
                     var department = new Department();
@@ -74,9 +75,9 @@ namespace ADO
         {
             try
             {
-                //(Id, Surname, Name, Secname, Id_main_dep, Id_sec_dep, Id_chief)
                 using SqlCommand command = new("SELECT M.Id, M.Surname, M.Name, M.Secname, M.Id_main_dep, M.Id_sec_dep, M.Id_chief FROM Managers M", connection);
                 using var reader = command.ExecuteReader();
+                Managers.Clear();
                 while (reader.Read())
                 {
                     var manager = new Manager();
@@ -106,6 +107,7 @@ namespace ADO
             {
                 using SqlCommand command = new("SELECT P.Id, P.Name, P.Price FROM Products P", connection);
                 using var reader = command.ExecuteReader();
+                Products.Clear();
                 while (reader.Read())
                 {
                     var product = new Product();
@@ -131,26 +133,49 @@ namespace ADO
             {
                 if (item.Content is Department department)
                 {
-                    new Edit(department,this).ShowDialog();
-                    //int index = Departments.IndexOf(department);
-                    //Departments.RemoveAt(index);
-                    //Departments.Insert(index, department);
-                    //MessageBox.Show(department.Id + " " + department.Name);
+                    new Edit(department).ShowDialog();
+                    GetDepartments();
                 }
             }
-            
+
             if (sender is ListViewItem itemManager)
             {
                 if (itemManager.Content is Manager manager)
                 {
-                    //new Edit(manager,Managers).ShowDialog();
-                    
-                    //MessageBox.Show(manager.Id + " " + manager.Name);
+                    new Edit(manager).ShowDialog();
+                    GetManagers();
+                }
+            }
+
+            if (sender is ListViewItem itemProduct)
+            {
+                if (itemProduct.Content is Product product)
+                {
+                    new Edit(product).ShowDialog();
+                    GetProducts();
                 }
             }
             //this.Close();
-            
 
+
+        }
+
+        private void Button_DepartmentsAdd(object sender, RoutedEventArgs e)
+        {
+            Department.Create("New Department");
+            GetDepartments();
+        }
+
+        private void Button_ManagersAdd(object sender, RoutedEventArgs e)
+        {
+            Manager.Create("New Manager", "New Manager", "New Manager", Departments[0], Departments[0], Managers[0]);
+            GetManagers();
+        }
+
+        private void Button_ProductsAdd(object sender, RoutedEventArgs e)
+        {
+            Product.Create("New Product", 0);
+            GetProducts();
         }
     }
 }
