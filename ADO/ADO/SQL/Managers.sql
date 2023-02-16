@@ -7,7 +7,7 @@
 --	Id_sec_dep	UNIQUEIDENTIFIER REFERENCES Departments( Id ),
 --	Id_chief	UNIQUEIDENTIFIER
 --) ;
-
+Alter Table Managers Add DeleteDt DateTime
 
 INSERT INTO Managers 
 	( Id, Surname, Name, Secname, Id_main_dep, Id_sec_dep, Id_chief )

@@ -65,7 +65,7 @@ namespace ADO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("DepartmentsQty"+ex.Message);
             }
         }
 
@@ -84,7 +84,8 @@ namespace ADO
             command.CommandText =
                 @"CREATE TABLE Departments (
                     Id      UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,
-                    Name    NVARCHAR(50) NOT NULL
+                    Name    NVARCHAR(50) NOT NULL,
+                    DeleteDt DateTime
                 ) ;";
 
             try
@@ -140,7 +141,7 @@ namespace ADO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("ProductsQty"+ex.Message);
             }
         }
 
@@ -173,7 +174,7 @@ namespace ADO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("ManagersQty "+ex.Message);
             }
         }
 
@@ -271,7 +272,7 @@ namespace ADO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("ShowDepartments"+ex.Message);
             }
 
         }
@@ -291,7 +292,7 @@ namespace ADO
                     var surname = reader.GetString(1);
                     var name = reader.GetString(2);
                     var lastname = reader.GetString(3);
-                    var department = reader.GetString(8);
+                    var department = reader.GetString(9).ToString();
 
                     result.AppendLine(start + "..." + end + " " + surname + " " + name[0] + ". " + lastname[0] + ". " + department);
                 }
@@ -299,7 +300,7 @@ namespace ADO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("ShowManagers"+ex.Message);
             }
         }
 
@@ -323,7 +324,7 @@ namespace ADO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("ShowProducts"+ex.Message);
             }
 
         }

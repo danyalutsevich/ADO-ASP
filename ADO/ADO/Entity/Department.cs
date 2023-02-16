@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,21 @@ namespace ADO.Entity
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+        public DateTime? DeleteDt { get; set; }
+
+        public Department()
+        {
+
+        }
+        
+        public Department(SqlDataReader reader)
+        {
+            Id = reader.GetGuid(0);
+            Name = reader.GetString(1);
+            DeleteDt = reader.IsDBNull(2) ? null : reader.GetDateTime(2);
+        }
+
+
 
         public void Save()
         {
@@ -26,7 +42,7 @@ namespace ADO.Entity
         {
             using var connection = new System.Data.SqlClient.SqlConnection(App.ConnectionString);
             connection.Open();
-            using var command = new System.Data.SqlClient.SqlCommand("DELETE FROM Departments WHERE Id = @Id", connection);
+            using var command = new System.Data.SqlClient.SqlCommand("UPDATE Departments SET DeleteDt = CURRENT_TIMESTAMP WHERE Id = @Id", connection);
             command.Parameters.AddWithValue("@Id", Id);
             command.ExecuteNonQuery();
         }

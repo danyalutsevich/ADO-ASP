@@ -50,14 +50,12 @@ namespace ADO
         {
             try
             {
-                using SqlCommand command = new("SELECT D.Id, D.Name FROM Departments D", connection);
+                using SqlCommand command = new("SELECT D.Id, D.Name, D.DeleteDt FROM Departments D", connection);
                 using var reader = command.ExecuteReader();
                 Departments.Clear();
                 while (reader.Read())
                 {
-                    var department = new Department();
-                    department.Id = reader.GetGuid(0);
-                    department.Name = reader.GetString(1);
+                    var department = new Department(reader);
                     Departments.Add(department);
                 }
                 reader.Close();
@@ -65,7 +63,7 @@ namespace ADO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Departments: "+ex.Message);
                 this.Close();
 
             }
@@ -75,19 +73,12 @@ namespace ADO
         {
             try
             {
-                using SqlCommand command = new("SELECT M.Id, M.Surname, M.Name, M.Secname, M.Id_main_dep, M.Id_sec_dep, M.Id_chief FROM Managers M", connection);
+                using SqlCommand command = new("SELECT M.Id, M.Surname, M.Name, M.Secname, M.Id_main_dep, M.Id_sec_dep, M.Id_chief, M.DeleteDt FROM Managers M", connection);
                 using var reader = command.ExecuteReader();
                 Managers.Clear();
                 while (reader.Read())
                 {
-                    var manager = new Manager();
-                    manager.Id = reader.GetGuid(0);
-                    manager.Name = reader.GetString(1);
-                    manager.Surname = reader.GetString(2);
-                    manager.Secname = reader.GetString(3);
-                    manager.Id_main_dep = reader.GetGuid(4);
-                    manager.Id_sec_dep = reader.GetValue(5) == DBNull.Value ? null : reader.GetGuid(5);
-                    manager.Id_chief = reader.IsDBNull(6) ? null : reader.GetGuid(6);
+                    var manager = new Manager(reader);
                     Managers.Add(manager);
                 }
                 reader.Close();
@@ -95,7 +86,7 @@ namespace ADO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Managers: "+ ex.Message);
                 this.Close();
 
             }
@@ -105,15 +96,12 @@ namespace ADO
         {
             try
             {
-                using SqlCommand command = new("SELECT P.Id, P.Name, P.Price FROM Products P", connection);
+                using SqlCommand command = new("SELECT P.Id, P.Name, P.Price, P.DeleteDt FROM Products P", connection);
                 using var reader = command.ExecuteReader();
                 Products.Clear();
                 while (reader.Read())
                 {
-                    var product = new Product();
-                    product.Id = reader.GetGuid(0);
-                    product.Name = reader.GetString(1);
-                    product.Price = reader.GetDouble(2);
+                    var product = new Product(reader);
                     Products.Add(product);
                 }
                 reader.Close();
@@ -121,7 +109,7 @@ namespace ADO
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Products: "+ex.Message);
                 this.Close();
 
             }

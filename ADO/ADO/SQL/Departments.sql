@@ -13,3 +13,6 @@ VALUES
 	( '1EF7268C-43A8-488C-B761-90982B31DF4E',  N'Канцелярия'		 ), 
 	( '415B36D9-2D82-4A92-A313-48312F8E18C6',  N'Отдел продаж'		 ), 
 	( '624B3BB5-0F2C-42B6-A416-099AAB799546',  N'Юридическая служба' )
+
+
+	Alter Table Departments Add DeleteDt DateTime

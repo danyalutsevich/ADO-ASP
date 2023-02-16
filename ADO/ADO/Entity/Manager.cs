@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,20 @@ namespace ADO.Entity
         public Guid Id_main_dep { get; set; } // NOT NULL
         public Guid? Id_sec_dep { get; set; } // NULL
         public Guid? Id_chief { get; set; }
+        public DateTime? DeleteDt { get; set; }
 
+        public Manager() { }
+        public Manager(SqlDataReader reader)
+        {
+            Id = reader.GetGuid(0);
+            Name = reader.GetString(1);
+            Surname = reader.GetString(2);
+            Secname = reader.GetString(3);
+            Id_main_dep = reader.GetGuid(4);
+            Id_sec_dep = reader.GetValue(5) == DBNull.Value ? null : reader.GetGuid(5);
+            Id_chief = reader.IsDBNull(6) ? null : reader.GetGuid(6);
+            DeleteDt = reader.IsDBNull(7) ? null : reader.GetDateTime(7);
+        }
 
         public void Save()
         {
@@ -37,7 +51,7 @@ namespace ADO.Entity
         {
             using var connection = new System.Data.SqlClient.SqlConnection(App.ConnectionString);
             connection.Open();
-            using var command = new System.Data.SqlClient.SqlCommand("DELETE FROM Managers WHERE Id = @Id", connection);
+            using var command = new System.Data.SqlClient.SqlCommand("UPDATE Managers SET DeleteDt = CURRENT_TIMESTAMP WHERE Id = @Id", connection);
             command.Parameters.AddWithValue("@Id", Id);
             command.ExecuteNonQuery();
         }

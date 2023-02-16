@@ -4,6 +4,8 @@
 	Price		FLOAT  NOT NULL
 ) ;
 
+Alter Table Products Add DeleteDt DateTime
+
 INSERT INTO Products
 	( Id, Name,	Price	)
 VALUES

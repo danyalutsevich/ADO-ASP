@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,20 @@ namespace ADO.Entity
         public Guid Id { get; set; }
         public string Name { get; set; }
         public double Price { get; set; }
+        public DateTime? DeleteDt { get; set; }
+
+        public Product()
+        {
+        
+        }
+
+        public Product(SqlDataReader reader)
+        {
+            Id = reader.GetGuid(0);
+            Name = reader.GetString(1);
+            Price = reader.GetDouble(2);
+            DeleteDt = reader.IsDBNull(3) ? null : reader.GetDateTime(3);
+        }
 
         public void Save()
         {
@@ -23,17 +38,17 @@ namespace ADO.Entity
             command.Parameters.AddWithValue("@Id", Id);
             command.ExecuteNonQuery();
         }
-        
+
         public void Delete()
         {
             using SqlConnection connection = new(App.ConnectionString);
             connection.Open();
-            using SqlCommand command = new("DELETE FROM Products WHERE Id=@Id", connection);
+            using SqlCommand command = new("UPDATE Products SET DeleteDt = CURRENT_TIMESTAMP WHERE Id=@Id", connection);
             command.Parameters.AddWithValue("@Id", Id);
             command.ExecuteNonQuery();
         }
 
-        public static void Create(string Name,double Price)
+        public static void Create(string Name, double Price)
         {
             using SqlConnection connection = new(App.ConnectionString);
             connection.Open();
