@@ -55,5 +55,11 @@ namespace ADO.Entity
             command.Parameters.AddWithValue("@Name", name);
             command.ExecuteNonQuery();
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
     }
 }

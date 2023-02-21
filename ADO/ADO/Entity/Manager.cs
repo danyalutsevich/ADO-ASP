@@ -14,10 +14,10 @@ namespace ADO.Entity
         public string Surname { get; set; }
         public string Name { get; set; }
         public string Secname { get; set; }
-        public Guid Id_main_dep { get; set; } // NOT NULL
+        public Guid? Id_main_dep { get; set; } // NOT NULL
         public Guid? Id_sec_dep { get; set; } // NULL
         public Guid? Id_chief { get; set; }
-        public DateTime? DeleteDt { get; set; }
+        public DateTime? FiredDt { get; set; }
 
         public Manager() { }
         public Manager(SqlDataReader reader)
@@ -29,7 +29,7 @@ namespace ADO.Entity
             Id_main_dep = reader.GetGuid(4);
             Id_sec_dep = reader.GetValue(5) == DBNull.Value ? null : reader.GetGuid(5);
             Id_chief = reader.IsDBNull(6) ? null : reader.GetGuid(6);
-            DeleteDt = reader.IsDBNull(7) ? null : reader.GetDateTime(7);
+            FiredDt = reader.IsDBNull(7) ? null : reader.GetDateTime(7);
         }
 
         public void Save()
@@ -51,7 +51,7 @@ namespace ADO.Entity
         {
             using var connection = new System.Data.SqlClient.SqlConnection(App.ConnectionString);
             connection.Open();
-            using var command = new System.Data.SqlClient.SqlCommand("UPDATE Managers SET DeleteDt = CURRENT_TIMESTAMP WHERE Id = @Id", connection);
+            using var command = new System.Data.SqlClient.SqlCommand("UPDATE Managers SET FiredDt = CURRENT_TIMESTAMP WHERE Id = @Id", connection);
             command.Parameters.AddWithValue("@Id", Id);
             command.ExecuteNonQuery();
         }
@@ -69,6 +69,11 @@ namespace ADO.Entity
             command.Parameters.AddWithValue("@Id_sec_dep", sec_dep.Id);
             command.Parameters.AddWithValue("@Id_chief", chief.Id);
             command.ExecuteScalar();
+        }
+
+        public override string ToString()
+        {
+            return $"{Surname} {Name} {Secname}";
         }
     }
 }

@@ -73,7 +73,7 @@ namespace ADO
         {
             try
             {
-                using SqlCommand command = new("SELECT M.Id, M.Surname, M.Name, M.Secname, M.Id_main_dep, M.Id_sec_dep, M.Id_chief, M.DeleteDt FROM Managers M", connection);
+                using SqlCommand command = new("SELECT M.Id, M.Surname, M.Name, M.Secname, M.Id_main_dep, M.Id_sec_dep, M.Id_chief, M.FiredDt FROM Managers M", connection);
                 using var reader = command.ExecuteReader();
                 Managers.Clear();
                 while (reader.Read())
@@ -121,7 +121,10 @@ namespace ADO
             {
                 if (item.Content is Department department)
                 {
-                    new Edit(department).ShowDialog();
+                    var edit = new Edit(department);
+                    edit.Owner = this;
+                    edit.DataContext = this;
+                    edit.ShowDialog();
                     GetDepartments();
                 }
             }
@@ -130,7 +133,10 @@ namespace ADO
             {
                 if (itemManager.Content is Manager manager)
                 {
-                    new Edit(manager).ShowDialog();
+                    var edit = new Edit(manager);
+                    edit.Owner = this;
+                    edit.DataContext = this;
+                    edit.ShowDialog();
                     GetManagers();
                 }
             }
@@ -139,7 +145,10 @@ namespace ADO
             {
                 if (itemProduct.Content is Product product)
                 {
-                    new Edit(product).ShowDialog();
+                    var edit = new Edit(product);
+                    edit.Owner = this;
+                    edit.DataContext = this;
+                    edit.ShowDialog();
                     GetProducts();
                 }
             }

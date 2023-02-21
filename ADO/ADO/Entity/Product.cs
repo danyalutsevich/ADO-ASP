@@ -57,5 +57,10 @@ namespace ADO.Entity
             command.Parameters.AddWithValue("@Price", Price);
             command.ExecuteNonQuery();
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
