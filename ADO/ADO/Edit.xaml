@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:ADO"
         mc:Ignorable="d"
         Title="Edit" Height="450" Width="800" Loaded="Window_Loaded">
-    <StackPanel x:Name="stackpanel">
-        
-    </StackPanel>
+    <ScrollViewer x:Name="scrollViewer" MaxWidth="600">
+        <StackPanel x:Name="stackpanel" TextElement.FontSize="18">
+            
+        </StackPanel>
+    </ScrollViewer>
 </Window>

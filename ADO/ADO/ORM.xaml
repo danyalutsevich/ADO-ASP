@@ -72,5 +72,24 @@
             </ListView>
             <Button Click="Button_ProductsAdd">Add</Button>
         </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1">
+            <Label TextElement.FontSize="25" HorizontalAlignment="Center">Sales</Label>
+            <ListView ItemsSource="{Binding Sales}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="150">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
+                        <GridViewColumn Header="ProductId" DisplayMemberBinding="{Binding ProductId}"></GridViewColumn>
+                        <GridViewColumn Header="Count" DisplayMemberBinding="{Binding Count}"></GridViewColumn>
+                    </GridView>
+                </ListView.View>
+                <ListView.Resources>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"></EventSetter>
+                    </Style>
+                </ListView.Resources>
+            </ListView>
+            <Button Click="Button_SalesAdd">Add</Button>
+        </StackPanel>
+        
     </Grid>
 </Window>

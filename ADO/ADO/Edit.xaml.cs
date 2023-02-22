@@ -46,24 +46,21 @@ namespace ADO
                     var combobox = new ComboBox();
                     var owner = Owner as ORM;
 
-                    if((bool)owner?.Departments.Any(d => d.Id.ToString() == value))
+                    if ((bool)owner?.Departments.Any(d => d.Id.ToString() == value))
                     {
                         owner.Departments.ToList().ForEach(d =>
                         {
                             combobox.Items.Add(d);
                         });
-
                     }
-
-                    else if((bool)owner?.Managers.Any(m => m.Id.ToString() == value))
+                    else if ((bool)owner?.Managers.Any(m => m.Id.ToString() == value))
                     {
                         owner.Managers.ToList().ForEach(m =>
                         {
                             combobox.Items.Add(m);
                         });
                     }
-                    
-                    else if((bool)owner?.Products.Any(p => p.Id.ToString() == value))
+                    else if ((bool)owner?.Products.Any(p => p.Id.ToString() == value))
                     {
                         owner.Products.ToList().ForEach(p =>
                         {
@@ -83,7 +80,7 @@ namespace ADO
                 else
                 {
                     var textbox = new TextBox();
-
+                    textbox.Name = field.Name;
                     textbox.Text = value;
 
                     if (field.Name == "Id")
@@ -111,6 +108,30 @@ namespace ADO
             this.Close();
         }
 
+        private dynamic GetValueByChildIndex(int index, Type type)
+        {
+            var child = stackpanel.Children[index];
+
+            if (child is TextBox)
+            {
+                try
+                {
+                    var value = (child as TextBox).Text;
+                    return Convert.ChangeType(value,type);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            else if (child is ComboBox)
+            {
+                var value = (child as ComboBox).SelectedValue;
+                return type.GetProperty("Id").GetValue(value);
+            }
+            return null;
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (item is Department)
@@ -118,7 +139,6 @@ namespace ADO
                 var department = item as Department;
                 department.Id = Guid.Parse((stackpanel.Children[1] as TextBox).Text);
                 department.Name = (stackpanel.Children[3] as TextBox).Text;
-                //department.Save();
             }
             if (item is Manager)
             {
@@ -130,7 +150,6 @@ namespace ADO
                 manager.Id_main_dep = ((stackpanel.Children[9] as ComboBox)?.SelectedItem as Department)?.Id;
                 manager.Id_sec_dep = ((stackpanel.Children[11] as ComboBox)?.SelectedItem as Department)?.Id;
                 manager.Id_chief = ((stackpanel.Children[13] as ComboBox)?.SelectedItem as Manager)?.Id;
-                //manager.Save();
             }
             if (item is Product)
             {
@@ -138,7 +157,12 @@ namespace ADO
                 product.Id = Guid.Parse((stackpanel.Children[1] as TextBox)?.Text);
                 product.Name = (stackpanel.Children[3] as TextBox).Text;
                 product.Price = double.Parse((stackpanel.Children[5] as TextBox).Text);
-                //product.Save();
+            }
+            if (item is Sale)
+            {
+                var sale = item as Sale;
+                sale.Id = Guid.Parse((stackpanel.Children[1] as TextBox)?.Text);
+                //sale.ProductId = ()
             }
 
             (item as ICRUD).Save();

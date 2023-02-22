@@ -28,6 +28,7 @@ namespace ADO
             Departments = new();
             Managers = new();
             Products = new();
+            Sales = new();
             DataContext = this;
             connection = new(App.ConnectionString);
         }
@@ -35,6 +36,7 @@ namespace ADO
         public ObservableCollection<Department> Departments { get; set; }
         public ObservableCollection<Manager> Managers { get; set; }
         public ObservableCollection<Product> Products { get; set; }
+        public ObservableCollection<Sale> Sales { get; set; }
 
         private SqlConnection connection { get; set; }
 
@@ -44,6 +46,7 @@ namespace ADO
             GetDepartments();
             GetManagers();
             GetProducts();
+            GetSales();
         }
 
         private void GetDepartments()
@@ -63,7 +66,7 @@ namespace ADO
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Departments: "+ex.Message);
+                MessageBox.Show("Departments: " + ex.Message);
                 this.Close();
 
             }
@@ -86,7 +89,7 @@ namespace ADO
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Managers: "+ ex.Message);
+                MessageBox.Show("Managers: " + ex.Message);
                 this.Close();
 
             }
@@ -109,7 +112,30 @@ namespace ADO
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Products: "+ex.Message);
+                MessageBox.Show("Products: " + ex.Message);
+                this.Close();
+
+            }
+        }
+
+        private void GetSales()
+        {
+            try
+            {
+                using SqlCommand command = new("SELECT S.* FROM Sales S", connection);
+                using var reader = command.ExecuteReader();
+                Sales.Clear();
+                while (reader.Read())
+                {
+                    var sale = new Sale(reader);
+                    Sales.Add(sale);
+                }
+                reader.Close();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Sales: " + ex.Message);
                 this.Close();
 
             }
@@ -127,11 +153,7 @@ namespace ADO
                     edit.ShowDialog();
                     GetDepartments();
                 }
-            }
-
-            if (sender is ListViewItem itemManager)
-            {
-                if (itemManager.Content is Manager manager)
+                else if (item.Content is Manager manager)
                 {
                     var edit = new Edit(manager);
                     edit.Owner = this;
@@ -139,11 +161,7 @@ namespace ADO
                     edit.ShowDialog();
                     GetManagers();
                 }
-            }
-
-            if (sender is ListViewItem itemProduct)
-            {
-                if (itemProduct.Content is Product product)
+                else if (item.Content is Product product)
                 {
                     var edit = new Edit(product);
                     edit.Owner = this;
@@ -151,28 +169,55 @@ namespace ADO
                     edit.ShowDialog();
                     GetProducts();
                 }
+                else if (item.Content is Sale sale)
+                {
+                    var edit = new Edit(sale);
+                    edit.Owner = this;
+                    edit.DataContext = this;
+                    edit.ShowDialog();
+                    GetProducts();
+                }
             }
-            //this.Close();
-
-
         }
 
         private void Button_DepartmentsAdd(object sender, RoutedEventArgs e)
         {
-            Department.Create("New Department");
+            var department = new Department();
+            var edit = new Edit(department);
+            edit.Owner = this;
+            edit.DataContext = this;
+            edit.ShowDialog();
             GetDepartments();
         }
 
         private void Button_ManagersAdd(object sender, RoutedEventArgs e)
         {
-            Manager.Create("New Manager", "New Manager", "New Manager", Departments[0], Departments[0], Managers[0]);
+            var manager = new Manager();
+            var edit = new Edit(manager);
+            edit.Owner = this;
+            edit.DataContext = this;
+            edit.ShowDialog();
             GetManagers();
         }
 
         private void Button_ProductsAdd(object sender, RoutedEventArgs e)
         {
-            Product.Create("New Product", 0);
+            var product = new Product();
+            var edit = new Edit(product);
+            edit.Owner = this;
+            edit.DataContext = this;
+            edit.ShowDialog();
             GetProducts();
+        }
+        
+        private void Button_SalesAdd(object sender, RoutedEventArgs e)
+        {
+            var sale = new Sale();
+            var edit = new Edit(sale);
+            edit.Owner = this;
+            edit.DataContext = this;
+            edit.ShowDialog();
+            GetSales();
         }
     }
 }
