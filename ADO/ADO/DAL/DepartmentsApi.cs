@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Linq;
 
 namespace ADO.DAL
 {
@@ -44,6 +45,34 @@ namespace ADO.DAL
                 logger.Log(ex.Message, "SERVE", this.GetType().Name, MethodInfo.GetCurrentMethod()?.Name ?? "");
             }
             return departments;
+        }
+
+        public void Save(Department department)
+        {
+            using var connection = new System.Data.SqlClient.SqlConnection(App.ConnectionString);
+            connection.Open();
+            using var command = new System.Data.SqlClient.SqlCommand("UPDATE Departments SET Name = @Name WHERE Id = @Id", connection);
+            command.Parameters.AddWithValue("@Id", department);
+            command.Parameters.AddWithValue("@Name", department);
+            command.ExecuteNonQuery();
+        }
+
+        public void Delete(Department department)
+        {
+            using var connection = new System.Data.SqlClient.SqlConnection(App.ConnectionString);
+            connection.Open();
+            using var command = new System.Data.SqlClient.SqlCommand("UPDATE Departments SET DeleteDt = CURRENT_TIMESTAMP WHERE Id = @Id", connection);
+            command.Parameters.AddWithValue("@Id", department);
+            command.ExecuteNonQuery();
+        }
+
+        public static void Create(string name)
+        {
+            using var connection = new System.Data.SqlClient.SqlConnection(App.ConnectionString);
+            connection.Open();
+            using var command = new System.Data.SqlClient.SqlCommand("INSERT INTO Departments (Id,Name) VALUES (NEWID(),@Name)", connection);
+            command.Parameters.AddWithValue("@Name", name);
+            command.ExecuteNonQuery();
         }
 
 
