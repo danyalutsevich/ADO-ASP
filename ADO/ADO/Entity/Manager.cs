@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ADO.DAL;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -19,8 +20,13 @@ namespace ADO.Entity
         public Guid? Id_chief { get; set; }
         public DateTime? FiredDt { get; set; }
 
-        public Manager() { }
-        public Manager(SqlDataReader reader)
+        public DataContext? context { get; set; }
+
+        public Manager(){ }
+        public Manager(DataContext? context) {
+            this.context = context;
+        }
+        public Manager(SqlDataReader reader, DataContext? context)
         {
             Id = reader.GetGuid(0);
             Name = reader.GetString(1);
@@ -30,7 +36,20 @@ namespace ADO.Entity
             Id_sec_dep = reader.GetValue(5) == DBNull.Value ? null : reader.GetGuid(5);
             Id_chief = reader.IsDBNull(6) ? null : reader.GetGuid(6);
             FiredDt = reader.IsDBNull(7) ? null : reader.GetDateTime(7);
+            this.context = context;
         }
+
+        //
+
+        public Department? Main_dep { get =>
+                context.Departments.GetAll().Where(d => d.Id == Id_main_dep).FirstOrDefault();
+        }
+        
+        public Department? Sec_dep { get =>
+                context.Departments.GetAll().Where(d => d.Id == Id_sec_dep).FirstOrDefault();
+        }
+
+        //
 
         public void Save()
         {

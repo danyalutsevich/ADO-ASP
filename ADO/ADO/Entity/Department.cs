@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ADO.DAL;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -14,18 +15,27 @@ namespace ADO.Entity
         public string Name { get; set; }
         public DateTime? DeleteDt { get; set; }
 
+        public DataContext context { get; set; }
+
         public Department()
         {
 
         }
-        
-        public Department(SqlDataReader reader)
+
+        public Department(SqlDataReader reader, DataContext context)
         {
             Id = reader.GetGuid(0);
             Name = reader.GetString(1);
             DeleteDt = reader.IsDBNull(2) ? null : reader.GetDateTime(2);
+            this.context = context;
         }
 
+        // 
+
+        public int MainCount { get => context.Managers.GetAll().Where(m => m.Id_main_dep == Id).Count(); }
+        public int SecCount { get => context.Managers.GetAll().Where(m => m.Id_sec_dep == Id).Count(); }
+
+        //
 
 
         public void Save()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ADO.Service;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -15,5 +16,6 @@ namespace ADO
     {
         public static string ConnectionString { get => @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\luche\Desktop\ADO\ADO\ADO\ADO.mdf;Integrated Security=True"; }
         public static string ConnectionStringMySql { get => @"Server=eu-central.connect.psdb.cloud;Database=testing;user=unu6yunbow6yswtrw416;password=pscale_pw_GCzjevcRLmlL4n1W342E80Zn0FXGa20njpB2WjQy6TH;SslMode=VerifyFull;"; }
+        internal static readonly ILogger Logger = new FileLogger("logs.txt");
     }
 }

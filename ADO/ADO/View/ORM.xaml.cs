@@ -43,103 +43,103 @@ namespace ADO
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             connection.Open();
-            GetDepartments();
-            GetManagers();
-            GetProducts();
-            GetSales();
+            //GetDepartments();
+            //GetManagers();
+            //GetProducts();
+            //GetSales();
         }
 
-        private void GetDepartments()
-        {
-            try
-            {
-                using SqlCommand command = new("SELECT D.Id, D.Name, D.DeleteDt FROM Departments D", connection);
-                using var reader = command.ExecuteReader();
-                Departments.Clear();
-                while (reader.Read())
-                {
-                    var department = new Department(reader);
-                    Departments.Add(department);
-                }
-                reader.Close();
+        //private void GetDepartments()
+        //{
+        //    try
+        //    {
+        //        using SqlCommand command = new("SELECT D.Id, D.Name, D.DeleteDt FROM Departments D", connection);
+        //        using var reader = command.ExecuteReader();
+        //        Departments.Clear();
+        //        while (reader.Read())
+        //        {
+        //            var department = new Department(reader);
+        //            Departments.Add(department);
+        //        }
+        //        reader.Close();
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Departments: " + ex.Message);
-                this.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Departments: " + ex.Message);
+        //        this.Close();
 
-            }
-        }
+        //    }
+        //}
 
-        private void GetManagers()
-        {
-            try
-            {
-                using SqlCommand command = new("SELECT M.Id, M.Surname, M.Name, M.Secname, M.Id_main_dep, M.Id_sec_dep, M.Id_chief, M.FiredDt FROM Managers M", connection);
-                using var reader = command.ExecuteReader();
-                Managers.Clear();
-                while (reader.Read())
-                {
-                    var manager = new Manager(reader);
-                    Managers.Add(manager);
-                }
-                reader.Close();
+        //private void GetManagers()
+        //{
+        //    try
+        //    {
+        //        using SqlCommand command = new("SELECT M.Id, M.Surname, M.Name, M.Secname, M.Id_main_dep, M.Id_sec_dep, M.Id_chief, M.FiredDt FROM Managers M", connection);
+        //        using var reader = command.ExecuteReader();
+        //        Managers.Clear();
+        //        while (reader.Read())
+        //        {
+        //            var manager = new Manager(reader);
+        //            Managers.Add(manager);
+        //        }
+        //        reader.Close();
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Managers: " + ex.Message);
-                this.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Managers: " + ex.Message);
+        //        this.Close();
 
-            }
-        }
+        //    }
+        //}
 
-        private void GetProducts()
-        {
-            try
-            {
-                using SqlCommand command = new("SELECT P.Id, P.Name, P.Price, P.DeleteDt FROM Products P", connection);
-                using var reader = command.ExecuteReader();
-                Products.Clear();
-                while (reader.Read())
-                {
-                    var product = new Product(reader);
-                    Products.Add(product);
-                }
-                reader.Close();
+        //private void GetProducts()
+        //{
+        //    try
+        //    {
+        //        using SqlCommand command = new("SELECT P.Id, P.Name, P.Price, P.DeleteDt FROM Products P", connection);
+        //        using var reader = command.ExecuteReader();
+        //        Products.Clear();
+        //        while (reader.Read())
+        //        {
+        //            var product = new Product(reader);
+        //            Products.Add(product);
+        //        }
+        //        reader.Close();
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Products: " + ex.Message);
-                this.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Products: " + ex.Message);
+        //        this.Close();
 
-            }
-        }
+        //    }
+        //}
 
-        private void GetSales()
-        {
-            try
-            {
-                using SqlCommand command = new("SELECT S.* FROM Sales S", connection);
-                using var reader = command.ExecuteReader();
-                Sales.Clear();
-                while (reader.Read())
-                {
-                    var sale = new Sale(reader);
-                    Sales.Add(sale);
-                }
-                reader.Close();
+        //private void GetSales()
+        //{
+        //    try
+        //    {
+        //        using SqlCommand command = new("SELECT S.* FROM Sales S", connection);
+        //        using var reader = command.ExecuteReader();
+        //        Sales.Clear();
+        //        while (reader.Read())
+        //        {
+        //            var sale = new Sale(reader);
+        //            Sales.Add(sale);
+        //        }
+        //        reader.Close();
 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Sales: " + ex.Message);
-                this.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show("Sales: " + ex.Message);
+        //        this.Close();
 
-            }
-        }
+        //    }
+        //}
 
         private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -151,7 +151,7 @@ namespace ADO
                     edit.Owner = this;
                     edit.DataContext = this;
                     edit.ShowDialog();
-                    GetDepartments();
+                    //GetDepartments();
                 }
                 else if (item.Content is Manager manager)
                 {
@@ -159,7 +159,7 @@ namespace ADO
                     edit.Owner = this;
                     edit.DataContext = this;
                     edit.ShowDialog();
-                    GetManagers();
+                    //GetManagers();
                 }
                 else if (item.Content is Product product)
                 {
@@ -167,7 +167,7 @@ namespace ADO
                     edit.Owner = this;
                     edit.DataContext = this;
                     edit.ShowDialog();
-                    GetProducts();
+                    //GetProducts();
                 }
                 else if (item.Content is Sale sale)
                 {
@@ -175,7 +175,7 @@ namespace ADO
                     edit.Owner = this;
                     edit.DataContext = this;
                     edit.ShowDialog();
-                    GetProducts();
+                    //GetProducts();
                 }
             }
         }
@@ -187,7 +187,7 @@ namespace ADO
             edit.Owner = this;
             edit.DataContext = this;
             edit.ShowDialog();
-            GetDepartments();
+            //GetDepartments();
         }
 
         private void Button_ManagersAdd(object sender, RoutedEventArgs e)
@@ -197,7 +197,7 @@ namespace ADO
             edit.Owner = this;
             edit.DataContext = this;
             edit.ShowDialog();
-            GetManagers();
+            //GetManagers();
         }
 
         private void Button_ProductsAdd(object sender, RoutedEventArgs e)
@@ -207,7 +207,7 @@ namespace ADO
             edit.Owner = this;
             edit.DataContext = this;
             edit.ShowDialog();
-            GetProducts();
+            //GetProducts();
         }
         
         private void Button_SalesAdd(object sender, RoutedEventArgs e)
@@ -217,7 +217,7 @@ namespace ADO
             edit.Owner = this;
             edit.DataContext = this;
             edit.ShowDialog();
-            GetSales();
+            //GetSales();
         }
     }
 }

@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.IO;
 using System.Windows.Markup;
+using ADO.View;
 
 namespace ADO
 {
@@ -333,6 +334,13 @@ namespace ADO
         {
             this.Hide();
             new ORM().ShowDialog();
+            this.Show();
+        }
+
+        private void Button_Click_8(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            new DALWindow().ShowDialog();
             this.Show();
         }
     }
