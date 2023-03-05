@@ -41,7 +41,7 @@ namespace ADO
                 var value = field.GetValue(item)?.ToString();
                 var fieldType = field.GetValue(item)?.GetType();
 
-                if (fieldType?.Name == typeof(Guid).Name && field.Name != "Id")  // TO BLOCK ALL GUID TEXTBOXES
+                if (fieldType?.Name == typeof(Guid).Name && field.Name != "Id") 
                 {
                     var combobox = new ComboBox();
                     var owner = Owner as ORM;

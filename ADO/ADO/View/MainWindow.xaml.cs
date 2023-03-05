@@ -343,5 +343,11 @@ namespace ADO
             new DALWindow().ShowDialog();
             this.Show();
         }
+        private void Button_Click_9(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            new EFCoreWindow().ShowDialog();
+            this.Show();
+        }
     }
 }
