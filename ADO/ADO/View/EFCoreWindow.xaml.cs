@@ -36,7 +36,7 @@ namespace ADO.View
             efContext.Products.Load();
             efContext.Managers.Load();
             efContext.Sales.Load();
-            DepartmentsList.ItemsSource = efContext.Departments.Local.ToObservableCollection();
+            DepartmentsList.ItemsSource = efContext.Departments.Local.ToObservableCollection().Where(d => d.DeleteDt == null);
             ManagersList.ItemsSource = efContext.Managers.Local.ToObservableCollection();
             //ProductsList.ItemsSource = efContext.Products.Local.ToObservableCollection();
 
@@ -44,10 +44,10 @@ namespace ADO.View
 
         private void UpdateCount()
         {
-            MonitorBlock.Content = "Departments count: " + efContext.Departments.Count();
+            MonitorBlock.Content = "Departments count: " + efContext.Departments.Where(d => d.DeleteDt == null).Count();
             MonitorBlock.Content += "\nManagers count: " + efContext.Managers.Count();
-            //MonitorBlock.Content += "\nProducts count: " + efContext.Products.Count();
-            //MonitorBlock.Content += "\nSales count: " + efContext.Sales.Count();
+            MonitorBlock.Content += "\nProducts count: " + efContext.Products.Count();
+            MonitorBlock.Content += "\nSales count: " + efContext.Sales.Count();
         }
 
         private void ButtonDepartment_Click(object sender, RoutedEventArgs e)
@@ -83,7 +83,20 @@ namespace ADO.View
                     edit.Owner = this;
                     edit.DataContext = this;
                     edit.ShowDialog();
+                    efContext.SaveChanges();
                 }
+            }
+        }
+
+        private void ShowDeletedCheck_Click(object sender, RoutedEventArgs e)
+        {
+            if (ShowDeletedCheck.IsChecked == true)
+            {
+                DepartmentsList.ItemsSource = efContext.Departments.Local.ToObservableCollection();
+            }
+            else
+            {
+                DepartmentsList.ItemsSource = efContext.Departments.Local.ToObservableCollection().Where(d => d.DeleteDt == null);
             }
         }
     }

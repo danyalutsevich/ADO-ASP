@@ -23,11 +23,13 @@
 
         <StackPanel Grid.Row="0" Grid.Column="1">
             <Label TextElement.FontSize="25" HorizontalAlignment="Center">Departments</Label>
+            <CheckBox  Content="Show Deleted" x:Name="ShowDeletedCheck" Click="ShowDeletedCheck_Click"></CheckBox>
             <ListView x:Name="DepartmentsList" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="150">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
+                        <GridViewColumn Header="DeleteDt" DisplayMemberBinding="{Binding DeleteDt}"></GridViewColumn>
+                        <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
                     </GridView>
                 </ListView.View>
                 <ListView.Resources>
@@ -38,7 +40,7 @@
             </ListView>
             <Button Click="ButtonDepartment_Click">Add</Button>
         </StackPanel>
-        
+
         <StackPanel Grid.Row="0" Grid.Column="2">
             <Label TextElement.FontSize="25" HorizontalAlignment="Center">Managers</Label>
             <ListView x:Name="ManagersList" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="150">

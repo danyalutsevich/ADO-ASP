@@ -33,7 +33,6 @@ namespace ADO.View
             var owner = Owner as EFCoreWindow;
             try
             {
-
                 owner.efContext.Departments.Where(x => x.Id == Department.Id).First().Name = NameBox.Text;
             }
             catch
@@ -46,8 +45,14 @@ namespace ADO.View
         
         private void ButtonDelete_Click(object sender, RoutedEventArgs e)
         {
-            (Owner as EFCoreWindow).efContext.Departments.Remove(Department);
+            (Owner as EFCoreWindow).efContext.Departments.Where(x => x.Id == Department.Id).First().DeleteDt = DateTime.Now;
             this.Close();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            NameBox.Text = Department.Name;
+            DeleteDtBox.Text = Department.DeleteDt.ToString();
         }
     }
 }
