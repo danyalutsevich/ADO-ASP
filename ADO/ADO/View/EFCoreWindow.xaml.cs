@@ -1,9 +1,11 @@
 ﻿using ADO.EFCore;
+using ADO.Entity;
 using ADO.View.Edit;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -39,7 +41,8 @@ namespace ADO.View
             DepartmentsList.ItemsSource = efContext.Departments.Local.ToObservableCollection().Where(d => d.DeleteDt == null);
             ManagersList.ItemsSource = efContext.Managers.Local.ToObservableCollection();
             //ProductsList.ItemsSource = efContext.Products.Local.ToObservableCollection();
-
+            SalesList.ItemsSource = efContext.Sales.Local.ToObservableCollection();
+            UpdateDailyStatistics();
         }
 
         private void UpdateCount()
@@ -52,7 +55,7 @@ namespace ADO.View
 
         private void ButtonDepartment_Click(object sender, RoutedEventArgs e)
         {
-            var newDepartment = new Department();
+            var newDepartment = new EFCore.Department();
             efContext.Departments.Add(newDepartment);
             var editWindow = new EFEditDepartment(newDepartment);
             editWindow.Owner = this;
@@ -63,7 +66,7 @@ namespace ADO.View
 
         private void ButtonManagers_Click(object sender, RoutedEventArgs e)
         {
-            var editWindow = new EFEdit(new Manager());
+            var editWindow = new EFEdit(new EFCore.Manager());
             editWindow.Owner = this;
             if (editWindow.ShowDialog() == true)
             {
@@ -77,7 +80,7 @@ namespace ADO.View
         {
             if (sender is ListViewItem item)
             {
-                if (item.Content is Department department)
+                if (item.Content is EFCore.Department department)
                 {
                     var edit = new EFEditDepartment(department);
                     edit.Owner = this;
@@ -86,6 +89,24 @@ namespace ADO.View
                     efContext.SaveChanges();
                 }
             }
+        }
+
+        private void UpdateDailyStatistics()
+        {
+            // Статистика продажів за сьогодні:
+            // загалом продажів (чеків, записів у Sales) за сьогодні (усіх, у т.ч. видалених)
+            var soldToday = efContext.Sales.Where(s => s.SaleDt.Date == DateTime.Now.Date);
+            Total.Content = "Total: " + soldToday.Count();
+            // загальна кількість проданих товарів (сума)
+            Start.Content = "Sale Start: " + soldToday.Min(s => s.SaleDt);
+            End.Content = "Sale End: " + soldToday.Max(s => s.SaleDt);
+            // максимальна кількість товарів у одному чеку (за сьогодні)
+            MaxCheckCnt.Content = "Max Check: " + soldToday.Max(s => s.Count);
+            // "середній чек" за кількістю - середнє значення кількості 
+            //  проданих товарів на один чек
+            AvgCheckCnt.Content = "Avg Check: " + soldToday.Average(s => s.Count);
+            // Повернення - чеки, що є видаленими (кількість чеків за сьогодні)
+            DeletedCheckCnt.Content = "Deleted Count: " + soldToday.Where(s => s.DeleteDt != null).Count();
         }
 
         private void ShowDeletedCheck_Click(object sender, RoutedEventArgs e)
@@ -98,6 +119,37 @@ namespace ADO.View
             {
                 DepartmentsList.ItemsSource = efContext.Departments.Local.ToObservableCollection().Where(d => d.DeleteDt == null);
             }
+        }
+
+        double Map(double value, double min1, double max1, double min2, double max2)
+        {
+            return min2 + (value - min1) * (max2 - min2) / (max1 - min1);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Random rnd = new();
+
+            for (int i = 0; i < 100; i++)
+            {
+                var sale = new EFCore.Sale();
+                sale.Id = Guid.NewGuid();
+                sale.ProductId = efContext.Products.Skip(rnd.Next(0, efContext.Products.Count())).First().Id;
+                sale.ManagerId = efContext.Managers.Skip(rnd.Next(0, efContext.Managers.Count())).First().Id;
+                sale.SaleDt = DateTime.Now.AddDays(-rnd.Next(0, 2));
+                sale.DeleteDt = rnd.Next(0, 2) > 0 ? sale.SaleDt.AddDays(rnd.Next(0, 2)) : null;
+
+                var price = efContext.Products.Where(p => p.Id == sale.ProductId).First().Price;
+                var maxPrice = efContext.Products.Max(p => p.Price);
+                var minPrice = efContext.Products.Min(p => p.Price);
+                var maxCount = (int)Map(maxPrice - price+10, 2, 100, minPrice, maxPrice);
+                sale.Count = rnd.Next(1, maxCount);
+
+                efContext.Sales.Add(sale);
+            }
+            efContext.SaveChanges();
+            UpdateCount();
+            UpdateDailyStatistics();
         }
     }
 }

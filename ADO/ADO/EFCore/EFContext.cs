@@ -24,9 +24,16 @@ namespace ADO.EFCore
             SeedDepartments(modelBuilder);
             SeedProducts(modelBuilder);
             SeedManagers(modelBuilder);
+            SeedSales(modelBuilder);
         }
         
         #region Seed
+
+        private void SeedSales(ModelBuilder modelBuilder)
+        {
+          
+        }
+
         private void SeedDepartments(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Department>().HasData(new Department { Id = Guid.Parse("D3C376E4-BCE3-4D85-ABA4-E3CF49612C94"), Name = "IT отдел" });

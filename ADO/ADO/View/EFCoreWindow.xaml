@@ -19,6 +19,16 @@
 
         <StackPanel>
             <Label x:Name="MonitorBlock"></Label>
+            <Label x:Name="SalesPerDay">Sales per Day</Label>
+            <Button Click="Button_Click">+</Button>
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+            <Label x:Name="Total" Content="Total:"></Label>
+            <Label x:Name="Start" Content="Sale start:"></Label>
+            <Label x:Name="End" Content="Sale start:"></Label>
+            <Label x:Name="MaxCheckCnt" Content="Max Check Count: "></Label>
+            <Label x:Name="AvgCheckCnt" Content="Average Check Count: "></Label>
+            <Label x:Name="DeletedCheckCnt" Content="Deleted Check Count: "></Label>
         </StackPanel>
 
         <StackPanel Grid.Row="0" Grid.Column="1">
@@ -48,6 +58,24 @@
                     <GridView>
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
+                    </GridView>
+                </ListView.View>
+                <ListView.Resources>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"></EventSetter>
+                    </Style>
+                </ListView.Resources>
+            </ListView>
+            <Button Click="ButtonManagers_Click">Add</Button>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="2">
+            <Label TextElement.FontSize="25" HorizontalAlignment="Center">Sales</Label>
+            <ListView x:Name="SalesList" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="150">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Count}"></GridViewColumn>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding ProductId}"></GridViewColumn>
                     </GridView>
                 </ListView.View>
                 <ListView.Resources>
