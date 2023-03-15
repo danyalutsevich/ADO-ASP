@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace ADO.View
 {
@@ -107,6 +108,23 @@ namespace ADO.View
             AvgCheckCnt.Content = "Avg Check: " + soldToday.Average(s => s.Count);
             // Повернення - чеки, що є видаленими (кількість чеків за сьогодні)
             DeletedCheckCnt.Content = "Deleted Count: " + soldToday.Where(s => s.DeleteDt != null).Count();
+
+            // var group = soldToday.GroupBy(s => s.ProductId).ToList()
+            // .Join(efContext.Products, grp => grp.Key, p => p.Id, (grp, p) => new { Name = p.Name, Count = grp.Count() });
+            var group = efContext.Products.GroupJoin(
+                soldToday,
+                p => p.Id,
+                s => s.ProductId,
+                (p, s) => new { Name = p.Name, Checks = s.Count(), Count = s.Sum(s => s.Count), Sum = s.Sum(s => s.Count)*p.Price});
+
+            // BestProduct.Content = "Best Product: " + group.OrderByDescending(g => g.Count).First().Name + " - " + group.OrderByDescending(g => g.Count).First().Count;
+            var bestByChecks = group.OrderByDescending(g => g.Checks).First();
+            var bestByCount = group.OrderByDescending(g => g.Count).First();
+            var bestBySum = group.OrderByDescending(g => g.Sum).First();
+
+            BestProductByChecks.Content = "Best By Checks: " + bestByChecks.Name + " - " + bestByChecks.Checks + " items\n";
+            BestProductByCount.Content = "Best By Count: " + bestByCount.Name + " - " + bestByCount.Count + " items\n";
+            BestProductBySum.Content = "Best By Sum: " + bestBySum.Name + " - " + bestBySum.Sum + " UAH\n";
         }
 
         private void ShowDeletedCheck_Click(object sender, RoutedEventArgs e)
@@ -142,7 +160,7 @@ namespace ADO.View
                 var price = efContext.Products.Where(p => p.Id == sale.ProductId).First().Price;
                 var maxPrice = efContext.Products.Max(p => p.Price);
                 var minPrice = efContext.Products.Min(p => p.Price);
-                var maxCount = (int)Map(maxPrice - price+10, 2, 100, minPrice, maxPrice);
+                var maxCount = (int)Map(maxPrice - price + 10, 2, 100, minPrice, maxPrice);
                 sale.Count = rnd.Next(1, maxCount);
 
                 efContext.Sales.Add(sale);

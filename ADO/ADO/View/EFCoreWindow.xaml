@@ -1,11 +1,11 @@
 ﻿<Window x:Class="ADO.View.EFCoreWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ADO.View"
-        mc:Ignorable="d"
-        Title="EFCore" Height="450" Width="800" Loaded="Window_Loaded">
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:ADO.View"
+    mc:Ignorable="d"
+    Title="EFCore" Height="450" Width="800" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -22,19 +22,26 @@
             <Label x:Name="SalesPerDay">Sales per Day</Label>
             <Button Click="Button_Click">+</Button>
         </StackPanel>
-        <StackPanel Grid.Row="1">
-            <Label x:Name="Total" Content="Total:"></Label>
-            <Label x:Name="Start" Content="Sale start:"></Label>
-            <Label x:Name="End" Content="Sale start:"></Label>
-            <Label x:Name="MaxCheckCnt" Content="Max Check Count: "></Label>
-            <Label x:Name="AvgCheckCnt" Content="Average Check Count: "></Label>
-            <Label x:Name="DeletedCheckCnt" Content="Deleted Check Count: "></Label>
-        </StackPanel>
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <Label x:Name="Total" Content="Total:"></Label>
+                <Label x:Name="Start" Content="Sale start:"></Label>
+                <Label x:Name="End" Content="Sale start:"></Label>
+                <Label x:Name="MaxCheckCnt" Content="Max Check Count: "></Label>
+                <Label x:Name="AvgCheckCnt" Content="Average Check Count: "></Label>
+                <Label x:Name="DeletedCheckCnt" Content="Deleted Check Count: "></Label>
+                <Label x:Name="BestProductByChecks" Content="Best Product By Checks : "></Label>
+                <Label x:Name="BestProductByCount" Content="Best Product By Count : "></Label>
+                <Label x:Name="BestProductBySum" Content="Best Product By Sum : "></Label>
+            </StackPanel>
+        </ScrollViewer>
 
         <StackPanel Grid.Row="0" Grid.Column="1">
             <Label TextElement.FontSize="25" HorizontalAlignment="Center">Departments</Label>
-            <CheckBox  Content="Show Deleted" x:Name="ShowDeletedCheck" Click="ShowDeletedCheck_Click"></CheckBox>
-            <ListView x:Name="DepartmentsList" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="150">
+            <CheckBox Content="Show Deleted" x:Name="ShowDeletedCheck"
+                Click="ShowDeletedCheck_Click"></CheckBox>
+            <ListView x:Name="DepartmentsList" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="150">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
@@ -44,7 +51,8 @@
                 </ListView.View>
                 <ListView.Resources>
                     <Style TargetType="{x:Type ListViewItem}">
-                        <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"></EventSetter>
+                        <EventSetter Event="MouseDoubleClick"
+                            Handler="ListViewItem_MouseDoubleClick"></EventSetter>
                     </Style>
                 </ListView.Resources>
             </ListView>
@@ -53,7 +61,8 @@
 
         <StackPanel Grid.Row="0" Grid.Column="2">
             <Label TextElement.FontSize="25" HorizontalAlignment="Center">Managers</Label>
-            <ListView x:Name="ManagersList" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="150">
+            <ListView x:Name="ManagersList" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="150">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
@@ -62,7 +71,8 @@
                 </ListView.View>
                 <ListView.Resources>
                     <Style TargetType="{x:Type ListViewItem}">
-                        <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"></EventSetter>
+                        <EventSetter Event="MouseDoubleClick"
+                            Handler="ListViewItem_MouseDoubleClick"></EventSetter>
                     </Style>
                 </ListView.Resources>
             </ListView>
@@ -70,7 +80,8 @@
         </StackPanel>
         <StackPanel Grid.Row="1" Grid.Column="2">
             <Label TextElement.FontSize="25" HorizontalAlignment="Center">Sales</Label>
-            <ListView x:Name="SalesList" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="150">
+            <ListView x:Name="SalesList" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Auto" MaxHeight="150">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
@@ -80,7 +91,8 @@
                 </ListView.View>
                 <ListView.Resources>
                     <Style TargetType="{x:Type ListViewItem}">
-                        <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"></EventSetter>
+                        <EventSetter Event="MouseDoubleClick"
+                            Handler="ListViewItem_MouseDoubleClick"></EventSetter>
                     </Style>
                 </ListView.Resources>
             </ListView>
