@@ -28,5 +28,8 @@ namespace ADO.EFCore
             Id_chief = null;
             FiredDt = null;
         }
+
+        public Department MainDep { get; set; }
+        public Department SecDep { get; set; }
     }
 }

@@ -18,5 +18,9 @@ namespace ADO.EFCore
             Name = "";
             DeleteDt = null;
         }
+
+        public List<Manager> Workers { get; set; }
+        public List<Manager> SecWorkers { get; set; }
+
     }
 }

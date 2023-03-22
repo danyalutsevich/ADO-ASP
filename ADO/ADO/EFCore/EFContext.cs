@@ -25,6 +25,19 @@ namespace ADO.EFCore
             SeedProducts(modelBuilder);
             SeedManagers(modelBuilder);
             SeedSales(modelBuilder);
+
+            modelBuilder.Entity<Manager>()
+                .HasOne(m => m.MainDep)
+                .WithMany(d => d.Workers)
+                .HasForeignKey(m => m.Id_main_dep)
+                .HasPrincipalKey(d => d.Id);
+
+             modelBuilder.Entity<Manager>()
+                .HasOne(m => m.SecDep)
+                .WithMany(d => d.SecWorkers)
+                .HasForeignKey(m => m.Id_sec_dep)
+                .HasPrincipalKey(d => d.Id);
+
         }
         
         #region Seed

@@ -22,7 +22,7 @@
             <Label x:Name="SalesPerDay">Sales per Day</Label>
             <Button Click="Button_Click">+</Button>
         </StackPanel>
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer Grid.Row="1" MaxHeight="250">
             <StackPanel>
                 <Label x:Name="Total" Content="Total:"></Label>
                 <Label x:Name="Start" Content="Sale start:"></Label>
@@ -33,6 +33,9 @@
                 <Label x:Name="BestProductByChecks" Content="Best Product By Checks : "></Label>
                 <Label x:Name="BestProductByCount" Content="Best Product By Count : "></Label>
                 <Label x:Name="BestProductBySum" Content="Best Product By Sum : "></Label>
+                <Label x:Name="BestManager" Content="Best Manager : "></Label>
+                <Label x:Name="BestManagerTop3" Content="Best Manager : "></Label>
+                <Label x:Name="TopSales" Content="Top Sales Manager : "></Label>
             </StackPanel>
         </ScrollViewer>
 
@@ -47,6 +50,8 @@
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
                         <GridViewColumn Header="DeleteDt" DisplayMemberBinding="{Binding DeleteDt}"></GridViewColumn>
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
+                        <GridViewColumn Header="Workers Count" DisplayMemberBinding="{Binding Workers.Count}"></GridViewColumn>
+                        <GridViewColumn Header="SecWorkers Count" DisplayMemberBinding="{Binding SecWorkers.Count}"></GridViewColumn>
                     </GridView>
                 </ListView.View>
                 <ListView.Resources>
@@ -67,6 +72,8 @@
                     <GridView>
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
+                        <GridViewColumn Header="MainDep" DisplayMemberBinding="{Binding MainDep.Name}"></GridViewColumn>
+                        <GridViewColumn Header="SecDep" DisplayMemberBinding="{Binding SecDep.Name}"></GridViewColumn>
                     </GridView>
                 </ListView.View>
                 <ListView.Resources>

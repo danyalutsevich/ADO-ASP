@@ -115,7 +115,7 @@ namespace ADO.View
                 soldToday,
                 p => p.Id,
                 s => s.ProductId,
-                (p, s) => new { Name = p.Name, Checks = s.Count(), Count = s.Sum(s => s.Count), Sum = s.Sum(s => s.Count)*p.Price});
+                (p, s) => new { Name = p.Name, Checks = s.Count(), Count = s.Sum(s => s.Count), Sum = s.Sum(s => s.Count) * p.Price });
 
             // BestProduct.Content = "Best Product: " + group.OrderByDescending(g => g.Count).First().Name + " - " + group.OrderByDescending(g => g.Count).First().Count;
             var bestByChecks = group.OrderByDescending(g => g.Checks).First();
@@ -125,6 +125,36 @@ namespace ADO.View
             BestProductByChecks.Content = "Best By Checks: " + bestByChecks.Name + " - " + bestByChecks.Checks + " items\n";
             BestProductByCount.Content = "Best By Count: " + bestByCount.Name + " - " + bestByCount.Count + " items\n";
             BestProductBySum.Content = "Best By Sum: " + bestBySum.Name + " - " + bestBySum.Sum + " UAH\n";
+
+            var managers = efContext.Managers.GroupJoin(soldToday,
+            m => m.Id,
+            s => s.ManagerId,
+            (m, s) => new
+            {
+                Name = m.Name,
+                Count = s.Count(),
+                Sum = s.Sum(s => s.Count),
+                prodId = s.Select(s => s.ProductId),
+                UAH = s.Sum(s => s.Count) * s.Select(s => s.ProductId)
+                .Join(efContext.Products, p => p, s => s.Id, (p, s) => s.Price).First()
+            });
+
+            // var managersAndProducts = managers.Join(efContext.Products, s => s.prodId, p => p.Id,
+            // (s, p) => new
+            // {
+            //     Name = s.Name,
+            //     Count = s.Count,
+            //     Sum = s.Sum,
+            //     UAH = s.Count * p.Price,
+            // });
+
+            var bestManager = managers.OrderByDescending(m => m.Count).First();
+            var topManagers = managers.OrderByDescending(m => m.Sum).Take(3);
+            var topSales = managers.OrderByDescending(m => m.UAH).Take(3);
+
+            BestManager.Content = "Best Manager: " + bestManager.Name + " - " + bestManager.Count + " checks\n";
+            BestManagerTop3.Content = "Top 3 Managers:\n" + string.Join("\n", topManagers.Select(m => m.Name + " - " + m.Sum + " items"));
+            TopSales.Content = "Top Sales:\n" + string.Join("\n", topSales.Select(m => m.Name + " - " + m.UAH.ToString("00") + " UAH"));
         }
 
         private void ShowDeletedCheck_Click(object sender, RoutedEventArgs e)
