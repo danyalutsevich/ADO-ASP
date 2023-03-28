@@ -36,6 +36,8 @@
                 <Label x:Name="BestManager" Content="Best Manager : "></Label>
                 <Label x:Name="BestManagerTop3" Content="Best Manager : "></Label>
                 <Label x:Name="TopSales" Content="Top Sales Manager : "></Label>
+                <Label x:Name="TopCountDepartment" Content="Top Count Department : "></Label>
+                <Label x:Name="TopSumDepartment" Content="Top Sum Department : "></Label>
             </StackPanel>
         </ScrollViewer>
 

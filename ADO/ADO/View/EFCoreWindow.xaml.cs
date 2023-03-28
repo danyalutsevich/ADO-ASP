@@ -96,11 +96,8 @@ namespace ADO.View
         {
             // Статистика продажів за сьогодні:
             // загалом продажів (чеків, записів у Sales) за сьогодні (усіх, у т.ч. видалених)
-            var soldToday = efContext.Sales.Where(s => s.SaleDt.Date == DateTime.Now.Date);
-            if(soldToday.Count() == 0)
-            {
-                return;
-            }
+            var soldToday = efContext.Sales.Where(s => s.SaleDt.Day == DateTime.Now.Day);
+            
             Total.Content = "Total: " + soldToday.Count();
             // загальна кількість проданих товарів (сума)
             Start.Content = "Sale Start: " + soldToday.Min(s => s.SaleDt);
@@ -113,52 +110,60 @@ namespace ADO.View
             // Повернення - чеки, що є видаленими (кількість чеків за сьогодні)
             DeletedCheckCnt.Content = "Deleted Count: " + soldToday.Where(s => s.DeleteDt != null).Count();
 
-            // var group = soldToday.GroupBy(s => s.ProductId).ToList()
-            // .Join(efContext.Products, grp => grp.Key, p => p.Id, (grp, p) => new { Name = p.Name, Count = grp.Count() });
-            var group = efContext.Products.GroupJoin(
+            var productsToday = efContext.Products.GroupJoin(
                 soldToday,
                 p => p.Id,
                 s => s.ProductId,
-                (p, s) => new { Name = p.Name, Checks = s.Count(), Count = s.Sum(s => s.Count), Sum = s.Sum(s => s.Count) * p.Price });
+                (p, s) => new {
+                    Name = p.Name,
+                    Checks = s.Count(),
+                    Count = s.Sum(s => s.Count),
+                    Sum = s.Sum(s => s.Count) * p.Price
+                });
 
-            // BestProduct.Content = "Best Product: " + group.OrderByDescending(g => g.Count).First().Name + " - " + group.OrderByDescending(g => g.Count).First().Count;
-            var bestByChecks = group.OrderByDescending(g => g.Checks).First();
-            var bestByCount = group.OrderByDescending(g => g.Count).First();
-            var bestBySum = group.OrderByDescending(g => g.Sum).First();
+            var bestByChecks = productsToday.OrderByDescending(p => p.Checks).First();
+            var bestByCount = productsToday.OrderByDescending(p => p.Count).First();
+            var bestBySum = productsToday.OrderByDescending(p => p.Sum).First();
 
             BestProductByChecks.Content = "Best By Checks: " + bestByChecks.Name + " - " + bestByChecks.Checks + " items\n";
             BestProductByCount.Content = "Best By Count: " + bestByCount.Name + " - " + bestByCount.Count + " items\n";
             BestProductBySum.Content = "Best By Sum: " + bestBySum.Name + " - " + bestBySum.Sum + " UAH\n";
 
-            var managers = efContext.Managers.GroupJoin(soldToday,
+            var managersToday = efContext.Managers.GroupJoin(soldToday,
             m => m.Id,
             s => s.ManagerId,
             (m, s) => new
             {
                 Name = m.Name,
                 Count = s.Count(),
+                MainDept = m.Id_main_dep,
                 Sum = s.Sum(s => s.Count),
                 prodId = s.Select(s => s.ProductId),
                 UAH = s.Sum(s => s.Count) * s.Select(s => s.ProductId)
                 .Join(efContext.Products, p => p, s => s.Id, (p, s) => s.Price).First()
             });
 
-            // var managersAndProducts = managers.Join(efContext.Products, s => s.prodId, p => p.Id,
-            // (s, p) => new
-            // {
-            //     Name = s.Name,
-            //     Count = s.Count,
-            //     Sum = s.Sum,
-            //     UAH = s.Count * p.Price,
-            // });
-
-            var bestManager = managers.OrderByDescending(m => m.Count).First();
-            var topManagers = managers.OrderByDescending(m => m.Sum).Take(3);
-            var topSales = managers.OrderByDescending(m => m.UAH).Take(3);
+            var bestManager = managersToday.OrderByDescending(m => m.Count).First();
+            var topManagers = managersToday.OrderByDescending(m => m.Sum).Take(3);
+            var topSales = managersToday.OrderByDescending(m => m.UAH).Take(3);
 
             BestManager.Content = "Best Manager: " + bestManager.Name + " - " + bestManager.Count + " checks\n";
             BestManagerTop3.Content = "Top 3 Managers:\n" + string.Join("\n", topManagers.Select(m => m.Name + " - " + m.Sum + " items"));
             TopSales.Content = "Top Sales:\n" + string.Join("\n", topSales.Select(m => m.Name + " - " + m.UAH.ToString("00") + " UAH"));
+
+            var departmentToday = efContext.Departments.Join(managersToday, d => d.Id, m => m.MainDept, (d, m) => new
+            {
+                Name = d.Name,
+                Count = m.Count,
+                Sum = m.Sum,
+                UAH = m.UAH
+            });
+
+            var topCountDepartment = departmentToday.OrderByDescending(d => d.Count).First();
+            var topSumDepartment = departmentToday.OrderByDescending(d => d.Sum).First();
+
+            TopCountDepartment.Content = "Top Count Department: " + topCountDepartment.Name + " - " + topCountDepartment.Count + " checks\n";
+            TopSumDepartment.Content = "Top Sum Department: " + topSumDepartment.Name + " - " + topSumDepartment.Sum + " items\n";
         }
 
         private void ShowDeletedCheck_Click(object sender, RoutedEventArgs e)
