@@ -34,11 +34,11 @@ namespace ADO.View
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            UpdateCount();
             efContext.Departments.Load();
             efContext.Products.Load();
             efContext.Managers.Load();
             efContext.Sales.Load();
+            UpdateCount();
             DepartmentsList.ItemsSource = efContext.Departments.Local.ToObservableCollection().Where(d => d.DeleteDt == null);
             ManagersList.ItemsSource = efContext.Managers.Local.ToObservableCollection();
             //ProductsList.ItemsSource = efContext.Products.Local.ToObservableCollection();
@@ -97,6 +97,10 @@ namespace ADO.View
             // Статистика продажів за сьогодні:
             // загалом продажів (чеків, записів у Sales) за сьогодні (усіх, у т.ч. видалених)
             var soldToday = efContext.Sales.Where(s => s.SaleDt.Date == DateTime.Now.Date);
+            if(soldToday.Count() == 0)
+            {
+                return;
+            }
             Total.Content = "Total: " + soldToday.Count();
             // загальна кількість проданих товарів (сума)
             Start.Content = "Sale Start: " + soldToday.Min(s => s.SaleDt);

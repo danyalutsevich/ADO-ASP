@@ -93,7 +93,8 @@
                     <GridView>
                         <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}"></GridViewColumn>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Count}"></GridViewColumn>
-                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding ProductId}"></GridViewColumn>
+                        <!-- <GridViewColumn Header="ProdId" DisplayMemberBinding="{Binding ProductId}"></GridViewColumn> -->
+                        <!-- <GridViewColumn Header="Product" DisplayMemberBinding="{Binding Product.Name}"></GridViewColumn> -->
                     </GridView>
                 </ListView.View>
                 <ListView.Resources>

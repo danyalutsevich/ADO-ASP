@@ -32,19 +32,27 @@ namespace ADO.EFCore
                 .HasForeignKey(m => m.Id_main_dep)
                 .HasPrincipalKey(d => d.Id);
 
-             modelBuilder.Entity<Manager>()
-                .HasOne(m => m.SecDep)
-                .WithMany(d => d.SecWorkers)
-                .HasForeignKey(m => m.Id_sec_dep)
-                .HasPrincipalKey(d => d.Id);
+            modelBuilder.Entity<Manager>()
+               .HasOne(m => m.SecDep)
+               .WithMany(d => d.SecWorkers)
+               .HasForeignKey(m => m.Id_sec_dep);
+
+            // modelBuilder.Entity<Sale>()
+            //     .HasOne(s => s.Product)
+            //     .WithMany(p => p.Sales);
+
+            // modelBuilder.Entity<Sale>()
+            //     .HasOne(s => s.Manager)
+            //     .WithMany(m => m.Sales);
 
         }
-        
+
         #region Seed
 
         private void SeedSales(ModelBuilder modelBuilder)
         {
-          
+            modelBuilder.Entity<Sale>().HasData(new Sale { Id = Guid.Parse("D3C376E4-BCE3-4D85-ABA4-E3CF49612C94"), ProductId = Guid.Parse("DA1E17BB-A90D-4C1B-9F1C-1B1F1B1F1B1F"), ManagerId = Guid.Parse("D3C376E4-BCE3-4D85-ABA4-E3CF49612C94"), SaleDt = DateTime.Now, Count = 1 });
+
         }
 
         private void SeedDepartments(ModelBuilder modelBuilder)
