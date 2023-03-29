@@ -1,0 +1,34 @@
+﻿@{
+	ViewData["Title"] = "URL";
+}
+
+<div class="flex flex-col justify-center align-center mx-32 space-y-5">
+	<h1>URL</h1>
+	<p>Path: @ViewBag.Path</p>
+	<p>Protocol is a set of rules and in current enviroment protocol defining how data is sent over the network
+		it can be HTTP, HTTPS
+	</p>
+	<p>Domain is a unique name that DNS can translate into network adderss (IP)</p>
+	<p>Port is a number that defines which application will handle the request. It can be a number form 0 to 65535.
+		We need ports in case we have multiple applications running on the same host. Which is nowdays very common.
+	</p>
+	<p>Path is a path to the resource. It can be a file or a directory.</p>
+	<p>Hash is a "unique" number or sequence of characters that represents some data
+		Hash function is a function that takes some data and returns a hash.
+		Hash function is a one way function. It is not possible to get the original data from the hash.
+		Hash function takes unlimited amount of data and returns a fixed length hash.
+		There are lots of hash functions. MD5, SHA1, SHA256, SHA512.
+	</p>
+	<p>URL is a way to describe something on the internet.
+		URL is a string that can contain protocol, domain, port, path, params.
+		Params are key value pairs that are sent to the server.
+		For example we have a URL: <a href="https://www.google.com/search?q=hello">https://www.google.com/search?q=hello</a>
+		Protocol: https
+		Domain: www.google.com
+		Port: 443
+		Path: /search
+		Params: q=hello
+		Params starts after ? and are separated with &.
+	</p>
+</div>
+

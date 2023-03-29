@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - ASP</title>
+	@*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/ASP.styles.css" asp-append-version="true" />
+	<script>
+		tailwind.config = {
+			theme: {
+				extend: {
+					colors: {
+						clifford: '#da373d',
+					}
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+	<header>
+		<div class="flex items-center justify-between m-10">
+			<a class="text-3xl" asp-area="" asp-controller="Home" asp-action="Index">ASP</a>
+			<a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+			<a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+			<a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="Intro">Intro</a>
+			<a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="AboutURL">AboutURL</a>
+		</div>
+	</header>
+	<div>
+		<main role="main">
+			@RenderBody()
+		</main>
+	</div>
+
+	
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	@*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
