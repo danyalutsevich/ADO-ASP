@@ -1,4 +1,5 @@
 ﻿using ASP.Models;
+using ASP.Models.Home;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using System.Diagnostics;
@@ -16,7 +17,7 @@ namespace ASP.Controllers
 
         public IActionResult Index()
         {
-            
+
             return View();
         }
 
@@ -29,20 +30,43 @@ namespace ASP.Controllers
         {
             return View();
         }
-        
+
         public IActionResult Scheme()
         {
-			ViewBag.Message = "Text from bag";
-			return View();
+            ViewBag.Message = "Text from bag";
+            return View();
         }
-        
+
         public IActionResult AboutURL()
         {
-			ViewBag.Query = Request.Query;
-			ViewBag.Path = Request.Path;
-			ViewBag.Request = Request;
-			return View();
-		}
+            ViewBag.Query = Request.Query;
+            ViewBag.Path = Request.Path;
+            ViewBag.Request = Request;
+            return View();
+        }
+
+        public IActionResult Razor()
+        {
+            return View();
+        }
+
+        public IActionResult Model()
+        {
+            var model = new Models.Home.Model() { 
+                Header = "Header from Model",
+                Title = "Title from Model",
+
+				Departments = new List<string>() { "IT", "HR", "Sales","Managers" },
+                Products = new List<Product>()
+                {
+                    new Product{Name="Pasta",Price=3},
+					new Product{Name="Bread",Price=2},
+                    new Product{Name="Juice",Price=1}
+				}
+             
+			};
+            return View(model);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

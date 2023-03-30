@@ -1,0 +1,22 @@
+﻿@model ASP.Models.Home.Model
+@{
+	ViewData["Title"] = Model.Header;
+}
+
+<h1>@Model.Title</h1>
+
+
+<div class="text-center">
+	<h1 class="text=2xl">Departments</h1>
+	@foreach(var d in Model.Departments)
+	{
+		<p>@d</p>
+	}
+	<h1 class="text=2xl">Products</h1>
+	@foreach(var d in Model.Products)
+	{
+		<p>Name: @d.Name</p>
+		<p>Price: @d.Price</p>
+	}
+
+</div>

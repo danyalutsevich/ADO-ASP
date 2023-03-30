@@ -24,7 +24,7 @@ namespace ADO.EFCore
             SaleDt = DateTime.Now;
             DeleteDt = null;
         }
-        // public Manager Manager { get; set; }
-        // public Product Product { get; set; }
+        //public Manager Manager { get; set; }
+        public Product Product { get; set; }
     }
 }

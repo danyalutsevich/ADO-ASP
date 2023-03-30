@@ -37,15 +37,21 @@ namespace ADO.EFCore
                .WithMany(d => d.SecWorkers)
                .HasForeignKey(m => m.Id_sec_dep);
 
-            // modelBuilder.Entity<Sale>()
-            //     .HasOne(s => s.Product)
-            //     .WithMany(p => p.Sales);
+            modelBuilder.Entity<Sale>()
+                 .HasOne(s => s.Product)
+                 .WithMany(p => p.Sales)
+                 .HasForeignKey(s => s.ProductId);
 
-            // modelBuilder.Entity<Sale>()
-            //     .HasOne(s => s.Manager)
-            //     .WithMany(m => m.Sales);
+            modelBuilder.Entity<Manager>()
+                .HasMany(m => m.Products)
+                .WithMany(p => p.Managers);
+                
 
-        }
+			// modelBuilder.Entity<Sale>()
+			//     .HasOne(s => s.Manager)
+			//     .WithMany(m => m.Sales);
+
+		}
 
         #region Seed
 

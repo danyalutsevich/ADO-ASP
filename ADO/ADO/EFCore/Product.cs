@@ -24,7 +24,7 @@ namespace ADO.EFCore
 
         // public Manager manager { get; set; }
         // public Product product { get; set; }
-        // public List<Sale> Sales { get; set; }
-        // public List<Manager> Managers { get; set; }
+        public List<Sale> Sales { get; set; }
+        public List<Manager> Managers { get; set; }
     }
 }

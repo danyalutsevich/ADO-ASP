@@ -32,7 +32,7 @@ namespace ADO.EFCore
         public Department MainDep { get; set; }
         public Department SecDep { get; set; }
         // public List<Sale> Sales{ get; set; }
-        // public List<Product> Products { get; set; }
+        public List<Product> Products { get; set; }
 
     }
 }
