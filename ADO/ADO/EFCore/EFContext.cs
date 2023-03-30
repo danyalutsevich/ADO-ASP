@@ -46,6 +46,8 @@ namespace ADO.EFCore
                 .HasMany(m => m.Products)
                 .WithMany(p => p.Managers);
                 
+              
+                
 
 			// modelBuilder.Entity<Sale>()
 			//     .HasOne(s => s.Manager)
