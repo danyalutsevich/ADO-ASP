@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChatWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="ChatWPF" Height="450" Width="800">
 
     <Window.Resources>
         <Style x:Key="History" TargetType="ListBox">
@@ -27,18 +27,27 @@
         <DropShadowEffect x:Key="ShadowEffect" Color="Black" Direction="90" ShadowDepth="10" Opacity="0.5"/>
     </Window.Resources>
 
-    <Grid>
+    <Grid x:Name="App">
         <Grid.RowDefinitions>
-            <RowDefinition Height="6*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="6*" x:Name="ChatRow"/>
+            <RowDefinition Height="*" x:Name="InputPromptRow"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="10*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*" x:Name="HistoryCol"/>
+            <ColumnDefinition Width="10*" Name="ChatCol"/>
+            <ColumnDefinition Width="*" x:Name="SendCol"/>
         </Grid.ColumnDefinitions>
+
         <ListBox x:Name="History" Grid.RowSpan="2" Style="{StaticResource History}"></ListBox>
-        <ListBox x:Name="Chat" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource Chat}"></ListBox>
+        <ListView x:Name="Chat" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
+                  Style="{StaticResource Chat}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" TextWrapping="Wrap" Margin="5" FontSize="16" Foreground="White"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
         <TextBox x:Name="InputPrompt" Grid.Row="1" Grid.Column="1" Effect="{StaticResource ShadowEffect}"></TextBox>
         <Button x:Name="Send" Click="Send_Click" Grid.Row="1" Grid.Column="2" Effect="{StaticResource ShadowEffect}">Send</Button>
     </Grid>
