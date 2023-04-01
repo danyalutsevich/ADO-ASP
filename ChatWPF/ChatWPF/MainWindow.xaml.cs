@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using OpenAI;
 using DotNetEnv;
+using OpenAI.Chat;
 
 namespace ChatWPF
 {
@@ -27,19 +28,30 @@ namespace ChatWPF
 			InitializeComponent();
 			DotNetEnv.Env.Load();
 			string? OPENAI_API_KEY = Environment.GetEnvironmentVariable("OPENAI_API_KEY");
-			string? ORGANIZATION_ID = Environment.GetEnvironmentVariable("ORGANIZATIdON_ID");
+			string? ORGANIZATION_ID = Environment.GetEnvironmentVariable("ORGANIZATION_ID");
 			if (OPENAI_API_KEY == null || ORGANIZATION_ID == null)
 			{
 				MessageBox.Show("Please set your OPENAI_API_KEY and ORGANIZATION_ID in the .env file");
 				return;
 			}
-			MessageBox.Show(ORGANIZATION_ID + OPENAI_API_KEY);
-			//OpenAIAuthentication auth = new(OPENAI_API_KEY,ORGANIZATION_ID); 
+			OpenAIAuthentication auth = new(OPENAI_API_KEY, ORGANIZATION_ID);
+			client = new(auth);
+			system = new ChatPrompt("system", "You are a Donald Trump");
 		}
+		
+		public OpenAIClient client;
+		public ChatPrompt system;
 
 		private void Send_Click(object sender, RoutedEventArgs e)
 		{
-
+			var chatPrompts = new List<ChatPrompt>
+			{
+				system,
+				new ChatPrompt("user",InputPrompt.Text),
+			};
+			var chatRequest = new ChatRequest(chatPrompts);
+			var result = client.ChatEndpoint.GetCompletionAsync(chatRequest).Result;
+			MessageBox.Show(result.FirstChoice);
 		}
 	}
 }
