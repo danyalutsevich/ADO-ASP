@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChatWPF"
         mc:Ignorable="d"
-        Title="ChatWPF" Height="450" Width="800" Loaded="Window_Loaded" >
+        Title="ChatWPF" Height="600" Width="900" Loaded="Window_Loaded" >
 
     <Window.Resources>
         <Style x:Key="History" TargetType="ListBox">
@@ -19,10 +19,19 @@
         <Style TargetType="TextBox">
             <Setter Property="Background" Value="#444654"></Setter>
             <Setter Property="BorderBrush" Value="#444654"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="FontSize" Value="16"></Setter>
         </Style>
         <Style TargetType="Button">
             <Setter Property="Background" Value="#10a37f"></Setter>
             <Setter Property="BorderBrush" Value="#10a37f"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+        </Style>
+        <Style TargetType="StackPanel">
+            <Setter Property="Background" Value="#202123"></Setter>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="White"></Setter>
         </Style>
         <DropShadowEffect x:Key="ShadowEffect" Color="Black" Direction="90" ShadowDepth="10" Opacity="0.5"/>
     </Window.Resources>
@@ -38,15 +47,21 @@
             <ColumnDefinition Width="*" x:Name="SendCol"/>
         </Grid.ColumnDefinitions>
 
-        <ListView x:Name="History" Grid.RowSpan="2" Style="{StaticResource History}"
+        <ListView x:Name="History" Grid.RowSpan="1" Style="{StaticResource History}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="History_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding}" TextWrapping="Wrap" Margin="5" FontSize="16" Foreground="White"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
-
         </ListView>
+
+        <StackPanel Grid.Row="1">
+            <Label>Assistant will behave like:</Label>
+            <TextBox x:Name="Character" TextChanged="TextBox_TextChanged">Behave like Donald Trump</TextBox>
+            <Button Click="Button_Click">Clean History</Button>
+        </StackPanel>
+
         <ListView x:Name="Chat" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
                   Style="{StaticResource Chat}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -56,7 +71,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <TextBox x:Name="InputPrompt" Grid.Row="1" Grid.Column="1" Effect="{StaticResource ShadowEffect}"></TextBox>
+        <TextBox x:Name="InputPrompt" Grid.Row="1" TextWrapping="Wrap" Grid.Column="1" Effect="{StaticResource ShadowEffect}"></TextBox>
         <Button x:Name="Send" Click="Send_Click" Grid.Row="1" Grid.Column="2" Effect="{StaticResource ShadowEffect}">Send</Button>
     </Grid>
 </Window>

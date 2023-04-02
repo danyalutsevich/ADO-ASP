@@ -26,7 +26,7 @@ namespace ChatWPF.Entity
 		{
 			int maxCharacters = 40;
 			var message = Messages?.Last()?.ToString();
-			return message?.Substring(0, Math.Min(maxCharacters, message.Length)) ?? "No messages";
+			return (message?.Substring(0, Math.Min(maxCharacters, message.Length)) ?? "No messages") + "...";
 		}
 
 		public List<Message> Messages { get; set; }

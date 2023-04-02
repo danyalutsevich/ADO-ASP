@@ -38,7 +38,7 @@ namespace ChatWPF
 			}
 			OpenAIAuthentication auth = new(OPENAI_API_KEY, ORGANIZATION_ID);
 			client = new(auth);
-			system = new ChatPrompt("system", "You are Donald Trump");
+			system = new ChatPrompt("system", Character.Text);
 			Chat.ItemsSource = localMessages;
 			context = new();
 		}
@@ -79,7 +79,6 @@ namespace ChatWPF
 
 		private void Send_Click(object sender, RoutedEventArgs e)
 		{
-
 			// add user's message and clear input
 			var usersMessage = new Entity.Message(currentChat.Id, localMessages.Count, "user", InputPrompt.Text);
 			// we need two storages of messages because we cant set the DbSet as an itemSource 
@@ -109,18 +108,34 @@ namespace ChatWPF
 				context.Messages.Add(message);
 				context.SaveChanges();
 			});
-
 		}
 
 		private void History_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			var chat = e.AddedItems[0] as Chat;
 			localMessages.Clear();
-			foreach (var m in context.Messages.Where(m => m.ChatId == chat.Id))
+			foreach (var m in context.Messages.Where(m => m.ChatId == chat.Id).OrderBy(m=>m.index))
 			{
 				localMessages.Add(m);
 			}
 			currentChat = chat;
+			Chat.Items.Refresh();
+
+		}
+
+		private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			system = new ChatPrompt("system",Character.Text);
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			context.Chats.Local.Clear();
+			context.Messages.Local.Clear();
+			localMessages.Clear();
+			context.SaveChanges();
+			context.Chats.Add(currentChat);
+			History.Items.Refresh();
 			Chat.Items.Refresh();
 
 		}
