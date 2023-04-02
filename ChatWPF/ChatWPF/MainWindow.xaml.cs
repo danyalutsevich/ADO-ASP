@@ -39,57 +39,89 @@ namespace ChatWPF
 			OpenAIAuthentication auth = new(OPENAI_API_KEY, ORGANIZATION_ID);
 			client = new(auth);
 			system = new ChatPrompt("system", "You are Donald Trump");
-			Chat.ItemsSource = chat;
+			Chat.ItemsSource = localMessages;
 			context = new();
-			context.History.Load();
+		}
+
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			context.Chats.Load();
 			context.Messages.Load();
-			context.Messages.Local.ToObservableCollection();
+			currentChat = new Chat(context.Chats.Local.Count);
+			context.Chats.Add(currentChat);
+			context.SaveChanges();
+			History.ItemsSource = context.Chats.Local.ToObservableCollection();
 		}
 
 		public OpenAIClient client;
 		public ChatPrompt system;
+		public Chat currentChat;
 		public ObservableCollection<string> chat = new();
+		public ObservableCollection<Entity.Message> localMessages = new();
 		public Context context;
 
-		private void UpdateChat(string message, int index = -1)
+
+		private void UpdateMessage(string message, int index)
 		{
 			Dispatcher.Invoke(() =>
 			{
-				if (index == -1)
-				{
-					chat.Add(message);
-				}
-				else
-				{
-					chat[index] = message;
-					Chat.Items.Refresh();
-				}
+				localMessages[index].message = message;
+				Chat.Items.Refresh();
 			});
+		}
+
+		private List<ChatPrompt> GetChatPrompts()
+		{
+			var prompts = localMessages.Select(m => new ChatPrompt(m.from, m.message)).ToList();
+			prompts.Insert(0, system);
+			return prompts;
 		}
 
 		private void Send_Click(object sender, RoutedEventArgs e)
 		{
 
-			var chatPrompts = new List<ChatPrompt>
-			{
-				system,
-				new ChatPrompt("user",InputPrompt.Text),
-			};
-			var chatRequest = new ChatRequest(chatPrompts);
-
-			chat.Add(InputPrompt.Text);
+			// add user's message and clear input
+			var usersMessage = new Entity.Message(currentChat.Id, localMessages.Count, "user", InputPrompt.Text);
+			// we need two storages of messages because we cant set the DbSet as an itemSource 
+			// so the localMessages is for view and context.Messages is for storing the messages
+			localMessages.Add(usersMessage);
+			context.Messages.Add(usersMessage);
 			Chat.Items.Refresh();
 			InputPrompt.Text = "";
 
-			StringBuilder response = new();
-			chat.Add(response.ToString());
+			var chatPrompts = GetChatPrompts();
+			var chatRequest = new ChatRequest(chatPrompts);
 
-			int index = chat.Count-1;
+			// add response that will be updated as responses will come
+			StringBuilder response = new();
+			int index = localMessages.Count;
+			var message = new Entity.Message(currentChat.Id, index, "assistant", response.ToString());
+			localMessages.Add(message);
+
 			client.ChatEndpoint.StreamCompletionAsync(chatRequest, (result) =>
 			{
 				response.Append(result.FirstChoice);
-				UpdateChat(response.ToString(), index);
+				UpdateMessage(response.ToString(), index);
+			})
+			.ContinueWith((res) =>
+			{
+				// when the message is complete adding it to the store (database)
+				context.Messages.Add(message);
+				context.SaveChanges();
 			});
+
+		}
+
+		private void History_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			var chat = e.AddedItems[0] as Chat;
+			localMessages.Clear();
+			foreach (var m in context.Messages.Where(m => m.ChatId == chat.Id))
+			{
+				localMessages.Add(m);
+			}
+			currentChat = chat;
+			Chat.Items.Refresh();
 
 		}
 	}

@@ -17,5 +17,22 @@ namespace ChatWPF.Entity
 		public int index { get; set; }
 		public string? from { get; set; }
 		public string? message { get; set; }
+
+		public Message(Guid ChatId, int index, string? from, string? message)
+		{
+			this.Id = Guid.NewGuid();
+			this.ChatId = ChatId;
+			this.index = index;
+			this.from = from;
+			this.message = message;
+		}
+
+		public override string ToString()
+		{
+			return message;
+		}
+
+		public Chat Chat { get; set; }
+
 	}
 }

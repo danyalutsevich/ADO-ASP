@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ChatWPF"
         mc:Ignorable="d"
-        Title="ChatWPF" Height="450" Width="800">
+        Title="ChatWPF" Height="450" Width="800" Loaded="Window_Loaded" >
 
     <Window.Resources>
         <Style x:Key="History" TargetType="ListBox">
@@ -38,7 +38,15 @@
             <ColumnDefinition Width="*" x:Name="SendCol"/>
         </Grid.ColumnDefinitions>
 
-        <ListBox x:Name="History" Grid.RowSpan="2" Style="{StaticResource History}"></ListBox>
+        <ListView x:Name="History" Grid.RowSpan="2" Style="{StaticResource History}"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="History_SelectionChanged">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" TextWrapping="Wrap" Margin="5" FontSize="16" Foreground="White"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
         <ListView x:Name="Chat" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
                   Style="{StaticResource Chat}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">

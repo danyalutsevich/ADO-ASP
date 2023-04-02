@@ -11,7 +11,7 @@ namespace ChatWPF.Entity
 {
 	public class Context : DbContext
 	{
-		public DbSet<Chat> History { get; set; }
+		public DbSet<Chat> Chats { get; set; }
 		public DbSet<Message> Messages { get; set; }
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -22,5 +22,13 @@ namespace ChatWPF.Entity
 			optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 		}
 
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<Chat>()
+				.HasMany(c => c.Messages)
+				.WithOne(m => m.Chat)
+				.HasForeignKey(m=>m.ChatId)
+				.HasPrincipalKey(c => c.Id);
+		}
 	}
 }
