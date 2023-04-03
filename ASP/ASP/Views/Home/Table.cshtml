@@ -1,0 +1,32 @@
+﻿@{
+
+}
+
+
+<div class="bg-black text-white">
+	<h1>Table</h1>
+</div>
+<div class="flex align-center justify-center">
+
+	<table class="table-auto border">
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Name</th>
+				<th>Price</th>
+			</tr>
+		</thead>
+		<tbody class="bg-gradient-to-b from-red-600 via-yellow-500 to-blue-600 bg-repeat">
+			@foreach (var p in ViewBag.Products)
+			{
+				<tr class="border-4 border-black">
+				@*<tr class="odd:bg-white even:bg-slate-500">*@
+					<td class="p-2 px-5">@(ViewBag.Products.IndexOf(p)+1)</td>
+					<td class="p-2 px-5">@p.Name</td>
+					<td class="p-2 px-5">@p.Price.ToString(".00")</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
