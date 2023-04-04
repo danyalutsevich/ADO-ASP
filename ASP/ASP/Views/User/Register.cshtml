@@ -1,0 +1,17 @@
+﻿@{
+	int counter = 0;
+	var click = () =>
+	{
+		counter++;
+	};
+}
+
+
+<div class="flex flex-col items-center justify-center ">
+    <input type="email" placeholder="Login" class="bg-green-100 border-2 border-blue-100 p-2 rounded"/>
+    <input type="password" placeholder="Password" class="bg-green-100   border-2 border-blue-100 p-2 rounded"/>
+</div>
+
+
+
+<button onclick="@click">@counter</button>

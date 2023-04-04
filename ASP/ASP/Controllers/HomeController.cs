@@ -75,7 +75,7 @@ namespace ASP.Controllers
 
 			ViewBag.Products = products;
 
-			return View();
+			return View(products);
 		}
 
 		public IActionResult Razor()
