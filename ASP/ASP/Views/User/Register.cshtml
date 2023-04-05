@@ -1,17 +1,65 @@
-﻿@{
-	int counter = 0;
-	var click = () =>
-	{
-		counter++;
-	};
+﻿@model ASP.Models.User.UserRegistrationModel
+@{
+	var user = ViewData["user"] as ASP.Models.User.UserRegistrationModel;
+	var validation = ViewData["validation"] as ASP.Models.User.UserValidationModel;
+
 }
 
+@if (user!=null)
+{
+	<p>Username: @user?.Username</p>
+	<p>Email: @user?.Email</p>
+	<p>Password: @user?.Password</p>
+	<p>RepeatPassword: @user?.RepeatPassword</p>
+	<p>IsAgree: @user?.IsAgree</p>
+	
+}
 
-<div class="flex flex-col items-center justify-center ">
-    <input type="email" placeholder="Login" class="bg-green-100 border-2 border-blue-100 p-2 rounded"/>
-    <input type="password" placeholder="Password" class="bg-green-100   border-2 border-blue-100 p-2 rounded"/>
-</div>
+<section>
+	<h1>Validation</h1>
+	<p>@validation?.UsernameMessage</p>
+	<p>@validation?.EmailMessage</p>
+	<p>@validation?.PasswordMessage</p>
+	<p>@validation?.RepeatPasswordMessage</p>
+	<p>@validation?.IsAgreeMessage</p>
+</section>
 
-
-
-<button onclick="@click">@counter</button>
+<form class="max-w-lg mx-auto mt-8" asp-controller="User" asp-action="RegisterUser">
+	<div class="mb-4">
+		<label class="block text-pink-500 font-bold mb-2" asp-for="Username">
+			Username
+		</label>
+		<input asp-for="Username" class="shadow appearance-none border-pink-500 rounded w-full py-2 px-3 text-pink-500 leading-tight focus:outline-none focus:shadow-outline-pink" type="text" placeholder="Enter your username">
+	</div>
+	<div class="mb-4">
+		<label class="block text-pink-500 font-bold mb-2" asp-for="Email">
+			Email
+		</label>
+		<input asp-for="Email" class="shadow appearance-none border-pink-500 rounded w-full py-2 px-3 text-pink-500 leading-tight focus:outline-none focus:shadow-outline-pink" type="email" placeholder="Enter your email">
+	</div>
+	<div class="mb-4">
+		<label class="block text-pink-500 font-bold mb-2" asp-for="Password">
+			Password
+		</label>
+		<input asp-for="Password" class="shadow appearance-none border-blue-500 rounded w-full py-2 px-3 text-pink-500 leading-tight focus:outline-none focus:shadow-outline-blue" type="password" placeholder="Enter your password">
+	</div>
+	<div class="mb-4">
+		<label class="block text-pink-500 font-bold mb-2" asp-for="RepeatPassword">
+			Repeat Password
+		</label>
+		<input asp-for="RepeatPassword" class="shadow appearance-none border-pink-500 rounded w-full py-2 px-3 text-pink-500 leading-tight focus:outline-none focus:shadow-outline-blue" type="password" placeholder="Confirm your password">
+	</div>
+	<div class="mb-4">
+		<div class="flex items-center">
+			<input type="checkbox" class="form-checkbox text-pink-500 h-5 w-5" asp-for="IsAgree">
+			<label asp-for="IsAgree" class="ml-2 block text-pink-500">
+				I agree with site rules
+			</label>
+		</div>
+	</div>
+	<div class="flex items-center justify-between">
+		<button class="bg-pink-500 hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-pink" type="submit">
+			Sign Up
+		</button>
+	</div>
+</form>
