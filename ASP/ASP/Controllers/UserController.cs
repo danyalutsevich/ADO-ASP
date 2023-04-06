@@ -1,5 +1,6 @@
 ﻿using ASP.Models.User;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 
 namespace ASP.Controllers
 {
@@ -22,6 +23,13 @@ namespace ASP.Controllers
 			{
 				validation.EmailMessage = "Email cant be empty";
 			}
+			else
+			{
+				if (!Regex.IsMatch(user.Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,})+)$"))
+				{
+					validation.EmailMessage = "Email is not valid";
+				}
+			}
 			if (String.IsNullOrEmpty(user.Password))
 			{
 				validation.PasswordMessage = "Password cant be empty";
@@ -30,11 +38,24 @@ namespace ASP.Controllers
 			{
 				validation.RepeatPasswordMessage = "Repeat password field cant be empty";
 			}
+			if (user.Password == user.RepeatPassword)
+			{
+				validation.RepeatPasswordMessage = "Passwords dont match";
+				validation.PasswordMessage = "Passwords dont match";
+			}
 			if (user.IsAgree == false)
 			{
 				validation.IsAgreeMessage = "You need to agree to register";
 			}
-
+			Console.WriteLine("avatar "+user?.Avatar?.FileName);
+			if (user.Avatar is not null)
+			{
+				var path = "wwwroot/avatars/" + user.Avatar.FileName;
+				using(var fs = new FileStream(path,FileMode.Create))
+				{
+					user.Avatar.CopyTo(fs);
+				}
+			}
 
 			ViewData["user"] = user;
 			ViewData["validation"] = validation;
@@ -43,6 +64,7 @@ namespace ASP.Controllers
 
 		public IActionResult Register()
 		{
+			
 			return View();
 		}
 	}

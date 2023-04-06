@@ -7,5 +7,6 @@
         public string Password { get; set; }
         public string RepeatPassword { get; set; }
         public bool IsAgree { get; set; }
+        public IFormFile Avatar { get; set; }
     }
 }

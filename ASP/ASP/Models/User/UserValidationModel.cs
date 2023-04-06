@@ -8,6 +8,6 @@
 		public string RepeatPasswordMessage { get; set; }
 		public string PasswordMessage { get; set; }
 		public string IsAgreeMessage { get; set; }
-
+		public string AvatarMessage { get; set; }
 	}
 }
