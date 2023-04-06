@@ -15,45 +15,53 @@ namespace ASP.Controllers
 		{
 			UserValidationModel validation = new();
 
-			if (String.IsNullOrEmpty(user.Username))
+			if (String.IsNullOrEmpty(user?.Username))
 			{
 				validation.UsernameMessage = "Username cant be empty";
 			}
-			if (String.IsNullOrEmpty(user.Email))
+			if (String.IsNullOrEmpty(user?.Email))
 			{
 				validation.EmailMessage = "Email cant be empty";
 			}
 			else
 			{
-				if (!Regex.IsMatch(user.Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,})+)$"))
+				if (!Regex.IsMatch(user?.Email, @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,})+)$"))
 				{
 					validation.EmailMessage = "Email is not valid";
 				}
 			}
-			if (String.IsNullOrEmpty(user.Password))
+			if (String.IsNullOrEmpty(user?.Password))
 			{
 				validation.PasswordMessage = "Password cant be empty";
 			}
-			if (String.IsNullOrEmpty(user.RepeatPassword))
+			if (String.IsNullOrEmpty(user?.RepeatPassword))
 			{
 				validation.RepeatPasswordMessage = "Repeat password field cant be empty";
 			}
-			if (user.Password == user.RepeatPassword)
+			if (user?.Password == user?.RepeatPassword)
 			{
 				validation.RepeatPasswordMessage = "Passwords dont match";
 				validation.PasswordMessage = "Passwords dont match";
 			}
-			if (user.IsAgree == false)
+			if (user?.IsAgree == false)
 			{
 				validation.IsAgreeMessage = "You need to agree to register";
 			}
-			Console.WriteLine("avatar "+user?.Avatar?.FileName);
-			if (user.Avatar is not null)
+			Console.WriteLine("len" + user?.Avatar?.Length);
+			if (user?.Avatar is not null)
 			{
-				var path = "wwwroot/avatars/" + user.Avatar.FileName;
-				using(var fs = new FileStream(path,FileMode.Create))
+				if (user?.Avatar?.Length > 1024 * 1024 || user?.Avatar?.Length == null)
 				{
-					user.Avatar.CopyTo(fs);
+					validation.AvatarMessage = "Avatar is too big";
+				}
+				else
+				{
+
+					var path = "wwwroot/avatars/" + user.Avatar.FileName;
+					using (var fs = new FileStream(path, FileMode.Create))
+					{
+						user.Avatar.CopyTo(fs);
+					}
 				}
 			}
 
@@ -64,7 +72,7 @@ namespace ASP.Controllers
 
 		public IActionResult Register()
 		{
-			
+
 			return View();
 		}
 	}

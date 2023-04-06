@@ -24,7 +24,7 @@
 	<p>@validation?.IsAgreeMessage</p>
 </section>
 
-<img src="/avatars/@user?.Avatar?.FileName"/>
+<img src="/avatars/@user?.Avatar?.FileName" />
 
 <form class="max-w-lg mx-auto mt-8 email" asp-controller="User" asp-action="RegisterUser" method="post" enctype="multipart/form-data">
 	<div class="mb-4">
@@ -67,6 +67,14 @@
 			<p class="text-red-500 text-xs italic">@validation?.RepeatPasswordMessage</p>
 		}
 	</div>
+	<div class="mb-3">
+		<label asp-for="Avatar">Your avatar</label>
+		<input asp-for="Avatar">
+		@if (validation?.AvatarMessage != null)
+		{
+			<p class="text-red-500 text-xs italic">@validation?.AvatarMessage</p>
+		}
+	</div>
 	<div class="mb-4">
 		<div class="flex items-center">
 			<input type="checkbox" class="form-checkbox border-2 @(validation?.IsAgreeMessage != null ? "border-red-500" :"text-pink-500") h-5 w-5" asp-for="IsAgree">
@@ -78,10 +86,6 @@
 				<p class="text-red-500 text-xs italic">@validation?.IsAgreeMessage</p>
 			}
 		</div>
-	</div>
-	<div class="mb-3">
-		<label asp-for="Avatar">Your avatar</label>
-		<input asp-for="Avatar">
 	</div>
 	<div class="flex items-center justify-between">
 		<button class="bg-pink-500 hover:bg-red-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-pink" type="submit">
