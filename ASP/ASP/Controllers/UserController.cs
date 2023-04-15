@@ -82,7 +82,7 @@ namespace ASP.Controllers
 				var extension = Path.GetExtension(user.Avatar.FileName);
 				do
 				{
-					string hash = _hashService.Hash(user.Avatar.FileName + Guid.NewGuid())[..16];
+					string hash = _randomService.Random(6);
 					avatarFileName = $"{hash}{extension}";
 				} while (System.IO.File.Exists($"wwwroot\\avatars\\{avatarFileName}"));
 
@@ -93,8 +93,8 @@ namespace ASP.Controllers
 					user.Avatar.CopyTo(fs);
 				}
 			}
-			
-			user.EmailCode = Guid.NewGuid().ToString()[..6];
+
+			user.EmailCode = _randomService.ConfirmCode(6);
 
 
 			if (modelIsValid)
