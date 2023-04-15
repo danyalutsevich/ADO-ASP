@@ -123,7 +123,7 @@ namespace ASP.Controllers
 		}
 
 		[HttpPost]
-		public string Register()
+		public string Login()
 		{
 			var loginValues = Request.Form["user-login"];
 			if (loginValues.Count == 0)

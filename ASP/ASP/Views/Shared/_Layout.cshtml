@@ -42,7 +42,7 @@
 	<!-- Modal -->
 	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
-			<form asp-action="Register" asp-controller="User" method="post">
+			<form asp-action="Login" asp-controller="User" method="post">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="exampleModalLabel">Authentication</h5>
@@ -58,11 +58,15 @@
 						</div>
 						<div class="form-group">
 							<label for="user-password">Password</label>
-							<input id="user-password" type="text"
+							<input id="user-password" type="password"
 								   name="user-password"
 								   class="form-control"
 								   placeholder="Password" />
 						</div>
+						<div class="modal-auth">
+							
+						</div>
+						
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -81,7 +85,39 @@
 
 	<script>
 		
+		document.addEventListener("DOMContentLoaded", () => {
+			const loginButton = document.getElementById("login-button");
+			if (!loginButton) throw "login-button not found";
+			loginButton.addEventListener("click", loginButtonClick);
+		});
+		function loginButtonClick() {
+			const userLoginInput = document.getElementById("user-login");
+			if (!userLoginInput) throw "user-login input not found";
+			const login = userLoginInput.value;
 
+			const userPasswordInput = document.getElementById("user-password");
+			if (!userPasswordInput) throw "user-password input not found";
+			const password = userPasswordInput.value;
+
+			window.fetch("/User/Login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded"
+				},
+				body: `user-login=${login}&user-password=${password}`
+			})
+				.then(r => r.text())
+				.then(t => {
+					if (t === "OK") window.location.reload();
+					else {
+						const modalBody = document.querySelector(".modal-auth");
+						if (!modalBody) throw "modal-auth not found";
+						modalBody.innerHTML = `<div class="alert alert-danger" role="alert">
+															${t}
+														</div>`;
+					}
+				});
+		}
 
 	</script>
 	
