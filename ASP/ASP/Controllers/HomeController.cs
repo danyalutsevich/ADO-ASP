@@ -1,5 +1,9 @@
-﻿using ASP.Models;
+﻿using ASP.Data;
+using ASP.Data.Entity;
+using ASP.Models;
 using ASP.Models.Home;
+using ASP.Services;
+using ASP.Services.Hash;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using System.Diagnostics;
@@ -9,10 +13,26 @@ namespace ASP.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
+		private readonly TimeService _timeService;
+		private readonly DateService _dateService;
+		private readonly DtService _dtService;
 
-		public HomeController(ILogger<HomeController> logger)
+		private readonly IHashService _hashService;
+		private readonly DataContext _dataContext;
+
+		public HomeController(ILogger<HomeController> logger, DataContext dataContext, TimeService timeService, DateService dateService, DtService dtService, IHashService hashService)
 		{
 			_logger = logger;
+			_timeService = timeService;
+			_dateService = dateService;
+			_dtService = dtService;
+			_hashService = hashService;
+			_dataContext = dataContext;
+		}
+
+		public ViewResult Middleware()
+		{
+			return View();
 		}
 
 		public IActionResult Index()
@@ -42,6 +62,28 @@ namespace ASP.Controllers
 			ViewBag.Query = Request.Query;
 			ViewBag.Path = Request.Path;
 			ViewBag.Request = Request;
+			return View();
+		}
+
+		public IActionResult SignUp()
+		{
+			
+			ViewData["userCount"] = _dataContext.Users.Count();
+
+			return View();
+		}
+
+		public IActionResult Context(User user)
+		{
+			if (user != null && String.IsNullOrEmpty(user.PasswordHash))
+			{
+				user.PasswordHash = _hashService.Hash(user.PasswordHash);
+				_dataContext.Users.Add(user);
+				_dataContext.SaveChanges();
+			}
+
+
+			ViewData["userCount"] = _dataContext.Users.Count();
 			return View();
 		}
 
@@ -100,6 +142,22 @@ namespace ASP.Controllers
 
 			};
 			return View(model);
+		}
+
+		public ViewResult Services()
+		{
+			ViewData["time"] = _timeService.GetTime();
+			ViewData["timeHash"] = _timeService.GetHashCode();
+
+			ViewData["date"] = _dateService.GetDate();
+			ViewData["dateHash"] = _dateService.GetHashCode();
+
+			ViewData["dt"] = _dtService.GetNow();
+			ViewData["dtHash"] = _dtService.GetHashCode();
+
+			ViewData["hash"] = _hashService.Hash("123");
+
+			return View();
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

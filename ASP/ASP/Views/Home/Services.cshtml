@@ -1,0 +1,39 @@
+﻿@{
+
+}
+@using ASP.Services
+@inject TimeService timeService
+@inject DateService dateService
+@inject DtService dtService
+
+<div class="m-5">
+	<h1>View</h1>
+	<p>Time: @timeService.GetTime()</p>
+	<p>Hash: @timeService.GetHashCode()</p>
+	<p>Date: @dateService.GetDate()</p>
+	<p>Hash: @dateService.GetHashCode()</p>
+	<p>DT: @dtService.GetNow()</p>
+	<p>Hash: @dtService.GetHashCode()</p>
+	
+</div>
+
+<div class="m-5">
+	<h1>Controller</h1>
+
+	<p>Time: @(ViewData["time"])</p>
+	<p>Hash: @(ViewData["timeHash"])</p>
+
+	<p>Date: @(ViewData["date"])</p>
+	<p>Hash: @(ViewData["dateHash"])</p>
+
+	<p>DT: @(ViewData["dt"])</p>
+	<p>Hash3: @(ViewData["dtHash"])</p>
+
+</div>
+
+
+<div class="m-5">
+	<p>Hash("123") @ViewData["hash"]</p>
+	
+</div>
+

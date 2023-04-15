@@ -12,6 +12,7 @@
 	<p>Password: @user?.Password</p>
 	<p>RepeatPassword: @user?.RepeatPassword</p>
 	<p>IsAgree: @user?.IsAgree</p>
+	<p>Avatar: @user?.Avatar</p>
 
 }
 
@@ -22,9 +23,10 @@
 	<p>@validation?.PasswordMessage</p>
 	<p>@validation?.RepeatPasswordMessage</p>
 	<p>@validation?.IsAgreeMessage</p>
+	<p>@validation?.AvatarMessage</p>
 </section>
 
-<img src="/avatars/@user?.Avatar?.FileName" />
+<img src="/avatars/@ViewData["Avatar"]" class="w-96"/>
 
 <form class="max-w-lg mx-auto mt-8 email" asp-controller="User" asp-action="RegisterUser" method="post" enctype="multipart/form-data">
 	<div class="mb-4">

@@ -1,0 +1,13 @@
+﻿@{
+}
+
+@model ASP.Data.Entity.User
+
+<h1>@ViewData["userCount"]</h1>
+<form class="flex flex-col m-5"
+	asp-action="Context" asp-controller="Home" method="post" enctype="multipart/form-data">
+	<input asp-for="Email" placeholder="Email" />
+	<input asp-for="PasswordHash" placeholder="Password" />
+	<input asp-for="PasswordHash" placeholder="Confirm Password" />
+	<input type="submit" value="Sign Up" />
+</form>

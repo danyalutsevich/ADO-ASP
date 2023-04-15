@@ -4,14 +4,14 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>@ViewData["Title"] - ASP</title>
-	@*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<script src="https://cdn.tailwindcss.com"></script>
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/ASP.styles.css" asp-append-version="true" />
 	<script>
 		tailwind.config = {
-			darkMode:"class"
-			theme: {
+			darkMode: "class"
+																						theme: {
 				extend: {
 					colors: {
 						clifford: '#da373d',
@@ -20,6 +20,7 @@
 			}
 		}
 	</script>
+
 </head>
 <body>
 	<header>
@@ -29,17 +30,63 @@
 			<a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
 			<a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="Intro">Intro</a>
 			<a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="AboutURL">AboutURL</a>
+
 		</div>
 	</header>
+
+	<!-- Button trigger modal -->
+	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+		Login
+	</button>
+
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<form asp-action="Register" asp-controller="User" method="post">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Authentication</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="user-login">Login</label>
+							<input id="user-login" type="text"
+								   name="user-login"
+								   class="form-control"
+								   placeholder="Login" />
+						</div>
+						<div class="form-group">
+							<label for="user-password">Password</label>
+							<input id="user-password" type="text"
+								   name="user-password"
+								   class="form-control"
+								   placeholder="Password" />
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" id="login-button">Login</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
 	<div>
 		<main role="main">
 			@RenderBody()
 		</main>
 	</div>
 
+	<script>
+		
+
+
+	</script>
 	
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	@*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	@await RenderSectionAsync("Scripts", required: false)
 </body>
