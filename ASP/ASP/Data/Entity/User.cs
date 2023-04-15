@@ -11,6 +11,7 @@
 		public string? Avatar { get; set; }
 		public DateTime RegisterDate { get; set; }
 		public DateTime? LastLogin { get; set; }
+		public string? AvatarFileName { get; set; }
 
 
 	}
