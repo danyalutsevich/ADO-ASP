@@ -26,7 +26,7 @@
 	<p>@validation?.AvatarMessage</p>
 </section>
 
-<img src="/avatars/@ViewData["Avatar"]" class="w-96"/>
+<img src="/avatars/@user?.AvatarFileName" class="w-96"/>
 
 <form class="max-w-lg mx-auto mt-8 email" asp-controller="User" asp-action="RegisterUser" method="post" enctype="multipart/form-data">
 	<div class="mb-4">

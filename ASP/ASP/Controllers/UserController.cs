@@ -86,15 +86,15 @@ namespace ASP.Controllers
 					avatarFileName = $"{hash}{extension}";
 				} while (System.IO.File.Exists($"wwwroot\\avatars\\{avatarFileName}"));
 
-				ViewData["Avatar"] = avatarFileName;
+				user.AvatarFileName = avatarFileName;
 				var path = "wwwroot/avatars/" + avatarFileName;
 				using (var fs = new FileStream(path, FileMode.Create))
 				{
 					user.Avatar.CopyTo(fs);
 				}
 			}
-
-
+			
+			user.EmailCode = Guid.NewGuid().ToString()[..6];
 
 
 			if (modelIsValid)
