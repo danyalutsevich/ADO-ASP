@@ -82,7 +82,7 @@ namespace ASP.Controllers
 				var extension = Path.GetExtension(user.Avatar.FileName);
 				do
 				{
-					string hash = _randomService.Random(6);
+					string hash = _randomService.ConfirmCode(6);
 					avatarFileName = $"{hash}{extension}";
 				} while (System.IO.File.Exists($"wwwroot\\avatars\\{avatarFileName}"));
 
@@ -145,12 +145,21 @@ namespace ASP.Controllers
 
 			if (user is not null && user.PasswordHash == _kdfService.GetDerivedKey(password, user.PasswordSalt))
 			{
-				return "Logged in";
+				Console.WriteLine(user.Id.ToString());
+				HttpContext.Session.SetString("userId", user.Id.ToString());
+				return "OK";
 			}
 			else
 			{
 				return "Wrong login or password";
 			}
 		}
+
+		public IActionResult Logout()
+		{
+			HttpContext.Session.Remove("userId");
+			return RedirectToAction("Index", "Home");
+		}
+
 	}
 }

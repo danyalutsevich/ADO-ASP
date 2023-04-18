@@ -17,12 +17,32 @@ namespace ASP.Middleware
 			DataContext dataContext
 			)
 		{
-			//string userId = context.Session.GetString("userId");
+			string userId = context.Session.GetString("userId");
+			try
+			{
+				var user = dataContext.Users.Find(Guid.Parse(userId));
+				if (user is not null)
+				{
+					context.Items.Add("user", user);
+				}
+			}
+			catch (Exception e)
+			{
+				logger.LogError(e.Message, "Error in SessionAuthMiddleware");
+			}
 
-			//dataContext.Users.Find(Guid.Parse(userId));
 
 			logger.LogInformation("SessionAuthMiddleware");
 			await _next(context);
+		}
+
+	}
+
+	public static class SessionAuthMiddlewareExtension
+	{
+		public static IApplicationBuilder UseSessionAuth(this IApplicationBuilder app)
+		{
+			return app.UseMiddleware<SessionAuthMiddleware>();
 		}
 	}
 }

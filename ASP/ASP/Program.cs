@@ -18,8 +18,18 @@ builder.Services.AddSingleton<IRandomService, RandomService>();
 builder.Services.AddSingleton<IKdfService, KdfService>();
 
 builder.Services.AddControllersWithViews();
+
+
 builder.Services.AddDbContext<DataContext>(optoins =>
 optoins.UseSqlServer(builder.Configuration.GetConnectionString("MSSQL")));
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout = TimeSpan.FromMinutes(1);
+	options.Cookie.HttpOnly = true;
+	options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -38,7 +48,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-//app.UseSession();
+app.UseSession();
 app.UseMiddleware<SessionAuthMiddleware>();
 
 app.MapControllerRoute(
