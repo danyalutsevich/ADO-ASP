@@ -35,7 +35,6 @@
 
 		@if (Context.Items["user"] is User authUser)
 		{
-			<a>@(authUser.AvatarFileName)</a>
 			<img src="~/avatars/@(authUser.AvatarFileName)"
 			 alt="Ava"
 			 style="max-width=40px; max-height:40px; border-radius:50%"

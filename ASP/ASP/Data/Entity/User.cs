@@ -13,6 +13,10 @@
 		public DateTime? LastLogin { get; set; }
 		public string? AvatarFileName { get; set; }
 
+		public bool IsEmailPublic { get; set; }
+		public bool IsUserNamePublic { get; set; }
+		public bool IsDatesPublic { get; set; }
+
 
 	}
 }
