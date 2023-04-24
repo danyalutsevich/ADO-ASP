@@ -10,10 +10,11 @@
 	<script src="https://cdn.tailwindcss.com"></script>
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/ASP.styles.css" asp-append-version="true" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 	<script>
 		tailwind.config = {
 			darkMode: "class"
-																														theme: {
+																																theme: {
 				extend: {
 					colors: {
 						clifford: '#da373d',
@@ -35,10 +36,12 @@
 
 		@if (Context.Items["user"] is User authUser)
 		{
-			<img src="~/avatars/@(authUser.AvatarFileName)"
-			 alt="Ava"
-			 style="max-width=40px; max-height:40px; border-radius:50%"
-			 title="@authUser.Username" />
+			<a href="/User/Profile/@authUser.Id">
+				<img src="~/avatars/@(authUser.AvatarFileName)"
+				 alt="Ava"
+				 style="max-width=40px; max-height:40px; border-radius:50%"
+				 title="@authUser.Username" />
+			</a>
 			<a asp-controller="User" asp-action="Logout"
 		   title="Вихід" class="mx-3">
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
@@ -47,7 +50,7 @@
 				</svg>
 			</a>
 
-			
+
 		}
 		else
 		{
@@ -131,8 +134,8 @@
 						const modalBody = document.querySelector(".modal-auth");
 						if (!modalBody) throw "modal-auth not found";
 						modalBody.innerHTML = `<div class="alert alert-danger" role="alert">
-																							${t}
-																						</div>`;
+																									${t}
+																								</div>`;
 					}
 				});
 		}
