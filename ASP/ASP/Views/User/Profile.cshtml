@@ -99,18 +99,20 @@
 							<div class="col-sm-3">
 								<h6 class="mb-0">Email</h6>
 							</div>
-							@{
-								if (Model.IsEmailPublic)
-								{
-									<div class="col-sm-8 text-secondary">
-										@Model.Email
-									</div>
+							<div class="col-sm-8 text-secondary">
+								@{
+									if (Model.IsEmailPublic)
+									{
+										<span id="realname">
+											@Model.Email
+										</span>
+									}
+									else
+									{
+										<i>Приховано від загального перегляду</i>
+									}
 								}
-								else
-								{
-									<i>Приховано від загального перегляду</i>
-								}
-							}
+							</div>
 							<div class="col-sm-1">
 								@if (Model.IsPersonal)
 								{
