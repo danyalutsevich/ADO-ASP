@@ -1,9 +1,11 @@
 using ASP.Data;
 using ASP.Middleware;
 using ASP.Services;
+using ASP.Services.Email;
 using ASP.Services.Hash;
 using ASP.Services.Kdf;
 using ASP.Services.Random;
+using ASP.Services.Validation;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +18,8 @@ builder.Services.AddScoped<DtService>();
 builder.Services.AddSingleton<IHashService, Md5HashService>();
 builder.Services.AddSingleton<IRandomService, RandomService>();
 builder.Services.AddSingleton<IKdfService, KdfService>();
+builder.Services.AddSingleton<IValidation, ValidationService>();
+builder.Services.AddSingleton<IEmailService, GmailService>();
 
 builder.Services.AddControllersWithViews();
 
@@ -26,7 +30,7 @@ optoins.UseSqlServer(builder.Configuration.GetConnectionString("MSSQL")));
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-	options.IdleTimeout = TimeSpan.FromMinutes(1);
+	options.IdleTimeout = TimeSpan.FromMinutes(180);
 	options.Cookie.HttpOnly = true;
 	options.Cookie.IsEssential = true;
 });
