@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASP.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230415154136_avatar")]
-    partial class avatar
+    [Migration("20230429191118_email")]
+    partial class email
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,30 @@ namespace ASP.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ASP.Data.Entity.EmailConfirmationToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Moment")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Used")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmailToken");
+                });
 
             modelBuilder.Entity("ASP.Data.Entity.User", b =>
                 {
@@ -44,6 +68,15 @@ namespace ASP.Migrations
                     b.Property<string>("EmailCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDatesPublic")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsEmailPublic")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsUserNamePublic")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastLogin")
                         .HasColumnType("datetime2");

@@ -59,6 +59,7 @@ namespace ASP.Controllers
             // Console.WriteLine($"code {code}");
             _logger.LogInformation($"code {code}");
             _logger.LogInformation(HttpContext.User.Identity?.IsAuthenticated.ToString());
+            Console.WriteLine(code);
             if (String.IsNullOrEmpty(code))
             {
                 model.Status = "400";
@@ -338,6 +339,48 @@ namespace ASP.Controllers
         {
             HttpContext.Session.Remove("userId");
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPut]
+        public JsonResult UpdateUser([FromBody] UpdateUserModel updateModel)
+        {
+            Console.WriteLine(updateModel.Field);
+            Console.WriteLine(updateModel.Value);
+            if (updateModel is null)
+            {
+                return Json(new { status = "error", message = "No data" });
+            }
+
+            if (HttpContext.User.Identity?.IsAuthenticated != true)
+            {
+                return Json(new { status = "error", message = "Unauthenticated" });
+            }
+
+            User user = null;
+            try
+            {
+                user = _dataContext.Users.Find(Guid.Parse(HttpContext.User.Claims
+                    .First(claim => claim.Type == ClaimTypes.Sid).Value));
+            }
+            catch
+            {
+            }
+
+            if (user is null)
+            {
+                return Json(new { status = "error", message = "Unauthorized" });
+            }
+
+            switch (updateModel.Field)
+            {
+                case "email":
+                    user.Email = updateModel.Value;
+                    _dataContext.SaveChanges();
+                    return Json(new { status = "ok", message = "Email updated" });
+                    break;
+                default:
+                    return Json(new { status = "error", message = "Unknown field" });
+            }
         }
 
         public IActionResult Profile([FromRoute] String id)

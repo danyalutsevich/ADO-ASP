@@ -126,6 +126,8 @@
                 </div>
                 <div class="col-sm-8 text-secondary">
                     @{
+                        <span id="email">@Model?.Email</span>
+                       <div class="p-2 cursor-pointer" id="changeEmail">Change</div>
                         if (Model.EmailCode is null)
                         {
                             <img src="~/img/check.svg" class="mb-1 color-filter-parakeet" title="Пошта підтверджена" alt="+"/>
@@ -295,8 +297,35 @@
             if (!confirmCodeButton) console.error("confirm-code-button not found");
             else confirmCodeButton.addEventListener("click", confirmCodeButtonClick);
             document.getElementById("resendEmail").addEventListener("click", resendEmail);
+            document.getElementById("changeEmail").addEventListener("click", changeEmail);
         });
 
+     function changeEmail(){
+         let email = document.getElementById("email")
+         
+        let newEmail = window.prompt("New email");
+        if (newEmail != email.value && newEmail != null && newEmail != ""){
+            
+            window.fetch("/User/UpdateUser",{
+                method:"PUT",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    Field:"email",
+                    Value:newEmail
+                })
+            })
+            
+        }
+        else{
+            alert("Email is not valid");
+        }
+     
+     
+     }
+     
+    
      function editClick(e) {
             const targetId = e.target.getAttribute("data-ref-field");
             // console.log(e.timeStamp);
@@ -325,6 +354,8 @@
             });
         
      }
+     
+     
         
 	 function confirmCodeButtonClick() {
             const confirmCodeInput = document.getElementById("confirm-code-input");
