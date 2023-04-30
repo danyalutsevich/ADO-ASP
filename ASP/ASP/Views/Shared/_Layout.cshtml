@@ -3,15 +3,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - ASP</title>
-	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-	<script src="https://cdn.tailwindcss.com"></script>
-	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-	<link rel="stylesheet" href="~/ASP.styles.css" asp-append-version="true" />
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-	<script>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - ASP</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/ASP.styles.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <script>
 		tailwind.config = {
 			darkMode: "class"
 																																theme: {
@@ -26,85 +26,87 @@
 
 </head>
 <body>
-	<header class="flex items-center justify-between m-10">
-		<a class="text-3xl" asp-area="" asp-controller="Home" asp-action="Index">ASP</a>
-		<a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-		<a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-		<a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="Intro">Intro</a>
-		<a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="AboutURL">AboutURL</a>
+<header class="flex items-center justify-between m-10">
+    <a class="text-3xl" asp-area="" asp-controller="Home" asp-action="Index">ASP</a>
+    <a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+    <a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="Intro">Intro</a>
+    <a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="AboutURL">AboutURL</a>
 
 
-		@if (Context.Items["user"] is User authUser)
-		{
-			<a href="/User/Profile/@authUser.Id">
-				<img src="~/avatars/@(authUser.AvatarFileName)"
-				 alt="Ava"
-				 style="max-width=40px; max-height:40px; border-radius:50%"
-				 title="@authUser.Username" />
-			</a>
-			<a asp-controller="User" asp-action="Logout"
-		   title="Вихід" class="mx-3">
-				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-					<path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z" />
-					<path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
-				</svg>
-			</a>
+    @if (Context.Items["user"] is User authUser)
+    {
+        <a href="/User/Profile/@authUser.Id">
+            <img src="~/avatars/@(authUser.AvatarFileName)"
+                 alt="Ava"
+                 style="max-width:40px; max-height:40px; border-radius:9999px"
+                 title="@authUser.Username"/>
+            @if (authUser.EmailCode != null)
+            {
+                <span class="badge bg-danger">!</span>
+            }
+        </a>
+        <a asp-controller="User" asp-action="Logout"
+           title="Вихід" class="mx-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+                <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+            </svg>
+        </a>
+    }
+    else
+    {
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Login
+        </button>
+    }
 
+</header>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form asp-action="Login" asp-controller="User" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Authentication</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="user-login">Login</label>
+                        <input id="user-login" type="text"
+                               name="user-login"
+                               class="form-control"
+                               placeholder="Login"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-password">Password</label>
+                        <input id="user-password" type="password"
+                               name="user-password"
+                               class="form-control"
+                               placeholder="Password"/>
+                    </div>
+                    <div class="modal-auth">
+                    </div>
 
-		}
-		else
-		{
-			<!-- Button trigger modal -->
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-				Login
-			</button>
-		}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="login-button">Login</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
-	</header>
-	<!-- Modal -->
-	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<form asp-action="Login" asp-controller="User" method="post">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Authentication</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<div class="form-group">
-							<label for="user-login">Login</label>
-							<input id="user-login" type="text"
-								   name="user-login"
-								   class="form-control"
-								   placeholder="Login" />
-						</div>
-						<div class="form-group">
-							<label for="user-password">Password</label>
-							<input id="user-password" type="password"
-								   name="user-password"
-								   class="form-control"
-								   placeholder="Password" />
-						</div>
-						<div class="modal-auth">
-						</div>
+<div>
+    <main role="main">
+        @RenderBody()
+    </main>
+</div>
 
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary" id="login-button">Login</button>
-					</div>
-				</div>
-			</form>
-		</div>
-	</div>
-
-	<div>
-		<main role="main">
-			@RenderBody()
-		</main>
-	</div>
-
-	<script>
+<script>
 
 		document.addEventListener("DOMContentLoaded", () => {
 			const loginButton = document.getElementById("login-button");
@@ -142,9 +144,9 @@
 
 	</script>
 
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="~/js/site.js" asp-append-version="true"></script>
-	@await RenderSectionAsync("Scripts", required: false)
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
