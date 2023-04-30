@@ -315,7 +315,15 @@
                     Field:"email",
                     Value:newEmail
                 })
-            })
+            }).then(response => {
+                if (response.ok) {
+                    email.value = newEmail;
+                    alert("Email changed");
+                }
+                else {
+                    alert("Error");
+                }
+            });
             
         }
         else{
