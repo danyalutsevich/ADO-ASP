@@ -376,7 +376,9 @@ namespace ASP.Controllers
                 case "email":
                     user.Email = updateModel.Value;
                     _dataContext.SaveChanges();
-                    return Json(new { status = "ok", message = "Email updated" });
+                    var emailConfirmToken = _GenerateConfirmToken(user);
+                    _SendEmail(user,emailConfirmToken);
+                    return Json(new { status = "ok", message = "Email updated Confirmations code sent again" });
                     break;
                 default:
                     return Json(new { status = "error", message = "Unknown field" });
