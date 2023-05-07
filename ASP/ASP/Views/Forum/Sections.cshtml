@@ -1,23 +1,15 @@
-@model ASP.Models.Forum.ForumIndexModel
-<h1>Forum</h1>
-<div class="flex ">
+@model ASP.Models.Forum.ForumSectionsModel
+<a>@ViewData["Id"]</a>
 
-    @if (Model.Sections.Count > 0)
-    {
-        foreach (var section in Model.Sections)
-        {
-            @Html.DisplayFor(m => section, "Section")
-        }
-    }
 
-</div>
+
 
 @if (Model.UserCanCreate)
 {
     <div class="row">
         <div class="col col-6">
             <h5 class="modal-title" id="authModalLabel">Створити новий розділ</h5>
-            <form asp-controller="Forum" asp-action="CreateSection" method="post">
+            <form asp-controller="Forum" asp-action="CreateTheme" method="post">
                 <div class="form-group">
                     @if (Model.IsMessagePositive)
                     {
@@ -34,7 +26,7 @@
                     <label for="section-title">Назва</label>
                     <input type="text" class="form-control"
                            id="Title" name="Title"
-                           value="@Model.Title"
+                           value="@Model.FormModel?.Title"
                            placeholder="Назва розділу"/>
                 </div>
                 <div class="form-group">
@@ -42,7 +34,7 @@
                     <textarea class="form-control" id="section-description" rows="3"
                 
                 name="Description" placeholder="Опис нового розділу">
-                @Model.Description
+                @Model.FormModel?.Description
                 </textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Створити</button>

@@ -1,0 +1,14 @@
+@model ASP.Models.Forum.ForumSectionModel
+
+<div class="card" style="width: 12rem; margin: 10px">
+    <img src="img/logos/@Model.Logo" class="card-img-top w-75" alt="Logo">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Title</h5>
+        <p class="card-text">@Model.Description</p>
+    </div>
+    <div class="card-footer">
+        @Model.Author
+        <img src="avatars/@Model.Avatar" alt="author avatar"/>
+        <a asp-action="Sections" asp-route-id="@Model.UrlId">See</a>
+    </div>
+</div>
