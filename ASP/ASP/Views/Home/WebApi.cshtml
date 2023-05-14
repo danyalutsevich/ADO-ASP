@@ -1,0 +1,58 @@
+<p></p>
+
+<div id="GET">
+</div>
+
+<div id="POST">
+</div>
+
+<div id="PUT">
+</div>
+
+<div id="LINK">
+</div>
+
+<button id="getButton">GET</button>
+<button id="postButton">POST</button>
+<button id="putButton">PUT</button>
+<button id="linkButton">LINK</button>
+
+<script>
+
+
+const get = document.getElementById("GET");
+const post = document.getElementById("POST");
+const put = document.getElementById("PUT");
+const link = document.getElementById("LINK");
+
+document.getElementById("getButton").addEventListener("click", function(){
+    fetch("/api/rates")
+        .then(response => response.text())
+        .then(data=> get.innerHTML += data);
+});
+
+document.getElementById("postButton").addEventListener("click", function(){
+    fetch("/api/rates", {
+        method: "POST",
+    })
+        .then(response => response.text())
+        .then(data=> post.innerHTML += data);
+});
+
+document.getElementById("putButton").addEventListener("click", function(){
+    fetch("/api/rates", {
+        method: "PUT",
+    })
+        .then(response => response.text())
+        .then(data=> put.innerHTML += data);
+});
+    
+document.getElementById("linkButton").addEventListener("click", function(){
+    fetch("/api/rates", {
+        method: "LINK",
+    })
+        .then(response => response.text())
+        .then(data=> link.innerHTML += data);
+});
+
+</script>

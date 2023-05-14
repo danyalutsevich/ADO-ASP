@@ -1,0 +1,13 @@
+@model ASP.Models.Forum.ForumTopicViewModel
+
+<div class="card" style="width: 12rem; margin: 10px">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Title</h5>
+        <p class="card-text">@Model.Description</p>
+    </div>
+    <div class="card-footer">
+        <h1>@Model.Author</h1>
+        <p>@Model.CreatedDtString</p>
+        <a asp-action="Topics" asp-route-id="@Model.UrlId">See</a>
+    </div>
+</div>

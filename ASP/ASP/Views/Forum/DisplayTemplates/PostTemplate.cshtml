@@ -1,0 +1,12 @@
+@model ASP.Models.Forum.ForumPostViewModel
+
+<div class="card-header">
+    <div class="media d-flex align-items-center">
+        <img src="/avatars/@Model.AuthorAvatar" class="d-block ui-w-40 rounded-circle mx-2" alt="">
+        <div class="media-body mx-2">
+            <a href="/User/Profile/@Model.AuthorName" data-abc="true">@Model.AuthorName</a>
+            <div class="text-muted small">@Model.CreatedDt</div>
+            <p>@Model.Content</p>
+        </div>
+    </div>
+</div>

@@ -16,3 +16,8 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.ui-w-40{
+  max-width: 40px;
+  max-height: 40px;
+}

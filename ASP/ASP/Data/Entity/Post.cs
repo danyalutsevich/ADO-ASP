@@ -1,3 +1,6 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
 namespace ASP.Data.Entity;
 
 public class Post
@@ -8,4 +11,7 @@ public class Post
     public String Content { get; set; } = null!;
     public Guid AuthorId { get; set; }
     public DateTime CreatedDt { get; set; }
+    
+    public User Author { get; set; }
+    public Post Reply { get; set; }
 }

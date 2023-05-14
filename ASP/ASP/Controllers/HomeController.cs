@@ -89,7 +89,10 @@ namespace ASP.Controllers
             return View();
         }
         
-        
+        public IActionResult WebApi()
+        {
+            return View();
+        }
 
         public IActionResult Table()
         {

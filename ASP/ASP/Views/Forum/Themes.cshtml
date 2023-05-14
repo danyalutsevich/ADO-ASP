@@ -1,0 +1,47 @@
+@model ASP.Models.Forum.ForumThemesPageModel
+
+@{
+    ViewData["Title"] = "Themes";
+}
+
+<h1>@Model.Title</h1>
+
+@foreach (var topic in Model.Topics)
+{
+    @Html.DisplayFor(m => topic, "TopicTemplate")
+}
+
+@if (Model.UserCanCreate)
+{
+    <form asp-controller="Forum" asp-action="CreateTopic" method="post">
+        <div class="form-group">
+            @if (Model.IsMessagePositive)
+            {
+                <div class="alert alert-success" role="alert">
+                    @Model.CreateMessage
+                </div>
+            }
+            else if (Model.IsMessagePositive)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @Model.CreateMessage
+                </div>
+            }
+            <label for="topic-title">Назва</label>
+            <input type="text" class="form-control"
+                   id="Title" name="Title"
+                   value="@Model.Title"
+                   placeholder="Назва розділу"/>
+        </div>
+        <div class="form-group">
+            <label for="Description" class="form-label">Опис</label>
+            <textarea class="form-control" id="topic-description" rows="3"
+                
+                name="Description" placeholder="Опис нового розділу">
+                @Model.FormModel?.Description
+                </textarea>
+        </div>
+        <input type="hidden" name="SectionId" value="@ViewData["id"]"/>
+        <button type="submit" class="btn btn-primary">Створити</button>
+    </form>
+}

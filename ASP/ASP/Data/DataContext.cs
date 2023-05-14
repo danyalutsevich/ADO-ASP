@@ -29,6 +29,21 @@ namespace ASP.Data
 				.HasOne(s => s.Author)
 				.WithMany()
 				.HasForeignKey(s => s.AuthorId);
+			
+			modelBuilder.Entity<Entity.Theme>()
+				.HasOne(s => s.Author)
+				.WithMany()
+				.HasForeignKey(s => s.AuthorId);
+			
+			modelBuilder.Entity<Entity.Post>()
+				.HasOne(p => p.Author)
+				.WithMany()
+				.HasForeignKey(p => p.AuthorId);
+			
+			modelBuilder.Entity<Entity.Post>()
+				.HasOne(p => p.Reply)
+				.WithMany()
+				.HasForeignKey(p => p.AuthorId);
 		}
 		
 	}

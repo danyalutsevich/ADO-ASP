@@ -1,0 +1,38 @@
+@model ASP.Models.Forum.ForumTopicsPageModel
+
+@{
+    ViewData["Title"] = "Topics";
+}
+
+<div>@Model.TopicId</div>
+
+<div class="card">
+    <div class="card-body">
+        <h1>@Model.Title</h1>
+        <p>@Model.Description</p>
+    </div>
+</div>
+
+@foreach (var post in Model.Posts)
+{
+    @Html.DisplayFor(m => post, "PostTemplate")
+}
+
+
+
+@if (Model.UserCanCreate)
+{
+    <form asp-controller="Forum" asp-action="CreatePost" method="post">
+        <div class="form-group">
+            <label for="Description" class="form-label">Вiдповiдь</label>
+            <textarea class="form-control" id="topic-description" rows="3"
+                
+                name="Description" placeholder="Напишiть вiдповiдь">
+                @Model.FormModel?.Description
+                </textarea>
+        </div>
+        <input type="hidden" name="TopicId" value="@Model.TopicId"/>
+        <input type="hidden" name="ValueId" value=""/>
+        <button type="submit" class="btn btn-primary">Опублiкувати</button>
+    </form>
+}
