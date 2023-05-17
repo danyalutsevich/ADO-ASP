@@ -94,7 +94,7 @@ public class ForumController : Controller
                         {
                             Description = t.Description,
                             Title = t.Title,
-                            // LogoId = t.LogoId,
+                            LogoId = t.LogoId ?? "0",
                             DaysSinceRegister =
                                 _displayService.NumberOfDaysBetweenDates(DateTime.Now, t.Author.RegisterDate),
                             AuthorRegisterDateString = t.Author.RegisterDate.ToString("dd.MM.yyyy HH:mm"),
@@ -215,7 +215,7 @@ public class ForumController : Controller
                     Title = model.Title,
                     Description = model.Description,
                     Id = Guid.NewGuid(),
-                    // LogoId = model.LogoId,
+                    LogoId = model.LogoId ?? "0",
                     CreatedDt = DateTime.Now,
                     AuthorId = Guid.Parse(HttpContext.User.Claims.First(c => c.Type == ClaimTypes.Sid)?.Value),
                     SectionId = Guid.Parse(model.SectionId),
@@ -251,7 +251,7 @@ public class ForumController : Controller
         }
 
         ViewData["id"] = id;
-        
+
         ForumThemesPageModel model = new()
         {
             UserCanCreate = HttpContext.User.Identity.IsAuthenticated == true,
@@ -381,7 +381,6 @@ public class ForumController : Controller
 
         try
         {
-
             _dataContext.Topics.Add(new()
             {
                 Description = model.Description,

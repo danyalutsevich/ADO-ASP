@@ -27,15 +27,22 @@
                     @Model.CreateMessage
                 </div>
             }
-            <label for="topic-title">Назва</label>
+            <label for="Title">Назва</label>
             <input type="text" class="form-control"
                    id="Title" name="Title"
                    value="@Model.Title"
                    placeholder="Назва розділу"/>
+            <label for="LogoId">Logo Id</label>
+            <select id="LogoId" name="LogoId">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
         </div>
         <div class="form-group">
             <label for="Description" class="form-label">Опис</label>
-            <textarea class="form-control" id="topic-description" rows="3"
+            <textarea class="form-control" id="Description" rows="3"
                 
                 name="Description" placeholder="Опис нового розділу">
                 @Model.FormModel?.Description
