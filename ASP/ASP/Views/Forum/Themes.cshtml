@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Themes";
 }
-
+<p>@ViewData["id"]</p>
 <h1>@Model.Title</h1>
 
 @foreach (var topic in Model.Topics)
@@ -41,7 +41,7 @@
                 @Model.FormModel?.Description
                 </textarea>
         </div>
-        <input type="hidden" name="SectionId" value="@ViewData["id"]"/>
+        <input type="hidden" name="ThemeId" value="@ViewData["id"]"/>
         <button type="submit" class="btn btn-primary">Створити</button>
     </form>
 }

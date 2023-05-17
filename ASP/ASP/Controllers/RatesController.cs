@@ -17,15 +17,31 @@ public class RatesController : ControllerBase
     {
         return new { result = "POST" };
     }
-    
+
     [HttpPut]
     public object Put()
     {
         return new { result = "PUT" };
     }
-    
+
     public object Default()
     {
         return new { result = "Default" };
+    }
+
+    [HttpPost("rate")]
+    public string Rate([FromBody] RequestData data)
+    {
+        Console.WriteLine(data.Value);
+        Console.WriteLine(data.ItemId);
+        Console.WriteLine(data.UserId);
+        return "Rate";
+    }
+
+    public class RequestData
+    {
+        public string ItemId { get; set; }
+        public string Value { get; set; }
+        public string UserId { get; set; }
     }
 }

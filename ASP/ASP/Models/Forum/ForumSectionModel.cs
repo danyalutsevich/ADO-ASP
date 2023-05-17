@@ -9,4 +9,7 @@ public class ForumSectionModel
     public string Author { get; set; } = "";
     public string Avatar { get; set; } = "";
     public string UrlId { get; set; } = "";
+    
+    public int LikeCount { get; set; } = 0;
+    public int DislikeCount { get; set; } = 0;
 }

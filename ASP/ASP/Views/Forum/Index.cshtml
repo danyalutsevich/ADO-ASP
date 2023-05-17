@@ -50,3 +50,34 @@
         </div>
     </div>
 }
+
+<script>
+    document.addEventListener("DOMContentLoaded",()=>{
+        console.log("loaded")
+        const userSid = document.querySelector("[data-user-sid]")
+        for (let elem of document.querySelectorAll("[data-rate]")){
+            elem.addEventListener("click",()=>{
+                const rate = elem.getAttribute("data-rate")
+                const val = elem.getAttribute("data-rate-value")
+                console.log(rate)
+                console.log(val)
+                const data={
+                    "ItemId":rate,
+                    "UserId":userSid,
+                    "Value":val    
+                }
+                
+                fetch("/api/rates/rate",
+                {
+                    method:"POST",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify(data)
+                }).then(res=>res.json())
+                .then(data=>console.log(data))
+                console.log(data)
+            })
+        }
+    })
+</script>

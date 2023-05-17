@@ -8,5 +8,6 @@ public class Section
     public Guid AuthorId { get; set; }
     public DateTime CreatedDt { get; set; }
     
+    public List<Rate> RatesList { get; set; } = null!;
     public User Author { get; set; } = null!;
 }

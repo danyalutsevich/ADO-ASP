@@ -1,12 +1,21 @@
 @model ASP.Models.Forum.ForumTopicViewModel
 
 <div class="card" style="width: 12rem; margin: 10px">
+    <div class="card-header">
+
+        <div class="media d-flex align-items-center">
+            <img src="~/avatars/@Model.Avatar" class="d-block ui-w-40 rounded-circle mx-2 ui-w-40" alt="">
+            <div class="media-body mx-2">
+                <a href="javascript:void(0)" data-abc="true">@Model.Author</a>
+                <div class="text-muted small">@Model.CreatedDtString</div>
+            </div>
+        </div>
+    </div>
     <div class="card-body">
         <h5 class="card-title">@Model.Title</h5>
         <p class="card-text">@Model.Description</p>
     </div>
     <div class="card-footer">
-        <h1>@Model.Author</h1>
         <p>@Model.CreatedDtString</p>
         <a asp-action="Topics" asp-route-id="@Model.UrlId">See</a>
     </div>

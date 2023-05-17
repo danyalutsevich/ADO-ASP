@@ -8,6 +8,21 @@
     </div>
     <div class="card-footer">
         @Model.Author
+
+        <p class="pointer">
+            <span data-rate="@Model.UrlId" data-rate-value="1"
+                class="material-symbols-outlined">
+                thumb_up
+            </span>
+            @Model.LikeCount
+        </p>
+        <p class="pointer">
+            <span data-rate="@Model.UrlId" data-rate-value="-1"
+                class="material-symbols-outlined">
+                thumb_down
+            </span>
+            @Model.DislikeCount
+        </p>
         <img src="avatars/@Model.Avatar" alt="author avatar"/>
         <a asp-action="Sections" asp-route-id="@Model.UrlId">See</a>
     </div>

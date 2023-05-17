@@ -30,6 +30,11 @@ namespace ASP.Data
 				.WithMany()
 				.HasForeignKey(s => s.AuthorId);
 			
+			modelBuilder.Entity<Entity.Section>()
+				.HasMany(s => s.RatesList)
+				.WithOne()
+				.HasForeignKey(s => s.ItemId);
+			
 			modelBuilder.Entity<Entity.Theme>()
 				.HasOne(s => s.Author)
 				.WithMany()
@@ -44,6 +49,11 @@ namespace ASP.Data
 				.HasOne(p => p.Reply)
 				.WithMany()
 				.HasForeignKey(p => p.AuthorId);
+			
+			modelBuilder.Entity<Entity.Topic>()
+				.HasOne(t=>t.Author)
+				.WithMany()
+				.HasForeignKey(t => t.AuthorId);
 		}
 		
 	}
