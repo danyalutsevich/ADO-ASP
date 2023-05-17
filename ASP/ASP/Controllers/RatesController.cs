@@ -26,7 +26,7 @@ public class RatesController : ControllerBase
 
     public object Default()
     {
-        return new { result = "Default" };
+        return new { result = HttpContext.Request.Method };
     }
 
     [HttpPost("rate")]
